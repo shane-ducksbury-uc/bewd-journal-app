@@ -1,0 +1,12 @@
+.test {
+    font-size: 2rem;
+}
+
+.journalEntryWrapper {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 80%;
+    background-color: chartreuse;
+}
