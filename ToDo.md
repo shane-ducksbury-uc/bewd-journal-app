@@ -20,4 +20,11 @@
 
 ### Overall Journal
 - Ability to add new journals
-- 
+
+### Login Page
+
+### REST API
+- Create a REST API
+- Install Driver for PostgreSQL
+
+### Postgres
