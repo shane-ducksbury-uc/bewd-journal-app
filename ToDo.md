@@ -23,8 +23,17 @@
 
 ### Login Page
 
+### Authentication
+- OAuth??
+- JWT or OAUTH
+- BCRYPT for the password hashing / salting
+
 ### REST API
-- Create a REST API
-- Install Driver for PostgreSQL
+- Create a REST API (In Progress)
+- Determine what requests will need to be set up (Basically Done)
+- https://stackoverflow.com/questions/942951/rest-api-error-return-good-practices
+- Install Driver for PostgreSQL (Done)
+- Make Express send back errors? (Not Done - Should probably do something about this.)
 
 ### Postgres
+- Work out DB Table Structure (Probably Users and Journal Entries Connected via ID of User)
