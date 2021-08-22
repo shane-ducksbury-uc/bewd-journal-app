@@ -1,40 +1,45 @@
-import React, { useState, useRef } from 'react';
-import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useState, useCallback, useEffect } from 'react';
+import {BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import './App.scss';
 import Header from './components/Header/Header';
 import JournalEntries from './views/JournalEntries/JournalEntries';
 import NewJournalEntry from './views/NewJournalEntry/NewJournalEntry'
+import { JournalEntry } from './views/JournalEntry/JournalEntry';
+
 
 function App() {
 
-  const [journalEntries, setJournalEntries] = useState(
-    [
-      { 'id': uuidv4(),
-        'title': 'First Entry',
-        'content': 'This is the content for the first journal entry'},
-      { 'id': uuidv4(),
-        'title': 'Second Entry',
-        'content': 'This is the content for the second journal entry'}
-    ])
+  const [journalEntries, setJournalEntries] = useState([])
+  // State will be updated to use login instead. Setting state here for the moment.
+  const [currentUser, setCurrentUser] = [
+    {
+      email: "my_email@email.com",
+      password: "password",
+      first_name: "Harry",
+      last_name: "Potter",
+      salt: null,
+      id: "4df3bd9a-c276-4d96-b3ef-70cd5c905238",
+    },
+  ];
 
-    const handleAddJournalEntry = (newJournalEntry) => {
-      return setJournalEntries(prevEntries => {
-        return [...prevEntries, newJournalEntry]
-      })
-    }
+  const handleJournalEntries = (e) => {
+    setJournalEntries(e)
+  }
 
   return (
     <>
     <Router>
-    <Header />
+    <Header currentUser={currentUser}/>
       <Switch>
         <Route path='/new-journal-entry'>
-          <NewJournalEntry addJournalEntry={handleAddJournalEntry} />
+          <NewJournalEntry />
         </Route>
-        <Route path='/journal'>
-          <JournalEntries journalEntries={journalEntries}/>
+        <Route exact path='/journal'>
+          <JournalEntries journalEntries={journalEntries} handleJournalEntries={handleJournalEntries} currentUser={currentUser}/>
+        </Route>
+        <Route path='/journal/:journalEntryId'>
+            <JournalEntry />
         </Route>
         <Route path='/'>
           <Home />
@@ -46,8 +51,13 @@ function App() {
   )
 
   function Home(){
-    return <h2>Journal App Home</h2>
-  }
+    return(
+      <div>
+        <h2>Journal App Home</h2>
+        {<p>Hello, {currentUser.first_name} </p>}
+      </div>
+    )
+      }
 }
 
 export default App;

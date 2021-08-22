@@ -1,6 +1,7 @@
 // This inital Express Setup adapted from https://www.youtube.com/watch?v=l8WPWK9mS5M
 
 import express from 'express';
+import cors from 'cors';
 
 import usersRoutes from './routes/users.js'
 import journalsRoutes from './routes/journals.js'
@@ -10,6 +11,7 @@ const app = express();
 const PORT = 5000;
 
 app.use(express.json());
+app.use(cors())
 
 // Setting the below creates the root to be used with all of the remaining routes
 app.use('/users', usersRoutes)

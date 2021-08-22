@@ -21,14 +21,19 @@ export const getUsers = (req, res) => {
 
 export const createUser = (req, res) => {
     const newUser = req.body
-    const insertStatementContent = `'${uuidv4()}', '${newUser.email}', '${newUser.password}', '${newUser.firstName}', '${newUser.lastName}'`.toString()
-    pool.query(`INSERT INTO users (id, email, password, first_name, last_name) VALUES (${insertStatementContent});`, (error, results) => {
-        if (error) {
-            res.status(400).json(error.message)
-        } else {
-            res.status(201).send('User Added')
-        }
-    })
+    // Basic Error handling to stop dodgy entries getting into db
+    if (newUser.email){
+        const insertStatementContent = `'${uuidv4()}', '${newUser.email}', '${newUser.password}', '${newUser.firstName}', '${newUser.lastName}'`.toString()
+        pool.query(`INSERT INTO users (id, email, password, first_name, last_name) VALUES (${insertStatementContent});`, (error, results) => {
+            if (error) {
+                res.status(400).json(error.message)
+            } else {
+                res.status(201).send('User Added')
+            }
+        })
+    } else {
+        res.status(400).json('Request Body was incorrect.')
+    }
 }
 
 export const getUser = (req, res) => {
@@ -73,4 +78,16 @@ export const updateUser = (req, res) => {
     }
 
     res.send(user)
+}
+
+export const getUserJournals = (req, res) => {
+    const { id } = req.params;
+    pool.query(`SELECT * FROM journals WHERE owner = '${id}'`, (error, results) => {
+        // This has crap error handling. Currently there is nothing stopping this from breaking if you put the wrong thing in the route.
+        if(error) {
+            res.status(400).json(error.message)
+        } else {
+            res.status(200).json(results.rows)
+        }
+    })
 }

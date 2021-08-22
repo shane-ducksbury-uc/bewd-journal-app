@@ -20,3 +20,41 @@ export const createJournalEntry = (req, res) => {
         }
     })
 }
+
+export const getJournalEntry = (req, res) => {
+    const { journalEntryId } = req.params;
+    pool.query(
+        `SELECT * FROM journal_entries WHERE journal_entry_id='${journalEntryId}';`, (error, results) => {
+        if (error) {
+            res.status(400).json(error.message)
+        } else {
+            res.status(200).json(results.rows)
+        }
+    })
+}
+
+export const updateJournalEntry = (req, res) => {
+    const { journalEntryId } = req.params;
+    const updatedJournalEntry = req.body
+    pool.query(
+        `UPDATE journal_entries 
+        SET title='${updatedJournalEntry.title}', content='${updatedJournalEntry.content}', date_updated=CURRENT_TIMESTAMP
+        WHERE journal_entry_id='${journalEntryId}';`, (error, results) => {
+        if (error) {
+            res.status(400).json(error.message)
+        } else {
+            res.status(201).send('Journal Entry Updated')
+        }
+    })
+}
+
+export const deleteJournalEntry = (req, res) => {
+    const { journalEntryId } = req.params;
+    pool.query(`DELETE FROM journal_entries WHERE journal_entry_id = '${journalEntryId}'`, (error, results) => {
+        if(error) {
+            res.status(400).json(error.message)
+        } else {
+            res.status(200).json('Success')
+        }
+    })
+}

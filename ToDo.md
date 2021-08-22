@@ -1,5 +1,8 @@
 ## To Do
 
+### App State
+- Specify the user so that we can get real context for everything.
+
 ### Main Page
 - Routing
 - Buttons to get to different sections on Mobile?
@@ -14,9 +17,10 @@
 
 ### Journal Viewing Page
 - Scrollable page on desktop - Calendar on Mobile
-- Click to view
+- Click to view (done)
 - Can delete
-- Can open to edit? (should this be a feature? Maybe the idea should be to keep it the same)
+- Can open to edit
+- Refactor of the API fetch as it isn't cleaning up properly
 
 ### Overall Journal
 - Ability to add new journals

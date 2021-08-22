@@ -9,18 +9,6 @@ const pool = new pg.Pool({
     port: 5432
 })
 
-export const getUserJournals = (req, res) => {
-    const { userId } = req.params;
-    pool.query(`SELECT * FROM journals WHERE owner = '${userId}'`, (error, results) => {
-        // This has crap error handling. Currently there is nothing stopping this from breaking if you put the wrong thing in the route.
-        if(error) {
-            res.status(400).json(error.message)
-        } else {
-            res.status(200).json(results.rows)
-        }
-    })
-}
-
 export const createJournal = (req, res) => {
     const newJournal = req.body
     const { userId } = req.params

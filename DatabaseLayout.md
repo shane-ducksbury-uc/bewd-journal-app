@@ -15,7 +15,7 @@
 - date_created
 
 ## Journal Entries
-- journal_entry-id
+- journal_entry_id
 - associated_journal
 - title
 - content
