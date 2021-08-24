@@ -10,7 +10,7 @@ const router = express.Router()
 // })
 
 // TBD What I am going to do with this one
-// router.post('/:userId', createJournal)
+router.post('/:userId', createJournal)
 
 router.get('/:journalId', getJournalEntries)
 

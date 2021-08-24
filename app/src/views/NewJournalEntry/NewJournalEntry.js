@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import Axios from 'axios';
 import NewJournalEntryCSS from './NewJournalEntry.module.css'
 import { v4 as uuidv4 } from 'uuid';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router-dom';
 
 function NewJournalEntry() {
     const history = useHistory()
+    // May not need the below id field?
     const [formData, updateFormData] = useState({'id': uuidv4()})
+    const { journalId } = useParams()
 
     // https://linguinecode.com/post/how-to-get-form-data-on-submit-in-reactjs
     // Make this so that it is saved in local storage until submitted.
@@ -19,9 +21,8 @@ function NewJournalEntry() {
 
     const addJournalEntry = (formData) => {
         const newJournalURL = 'http://localhost:5000/entries/'
-        const TEMP_JOURNAL = 'c7d4f707-8eda-4739-ac2f-183543186542'
         const journalData = {
-            "associated_journal": TEMP_JOURNAL,
+            "associated_journal": journalId,
             "title": formData.title,
             "content": formData.content
         }
@@ -31,7 +32,7 @@ function NewJournalEntry() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         const response = await addJournalEntry(formData)
-        response.status === 201 ? history.push('/journal') : console.log('Something didnt work, need to put an error in here.')
+        response.status === 201 ? history.push(`/journals/${journalId}`) : console.log('Something didnt work, need to put an error in here.')
     }
 
     return (

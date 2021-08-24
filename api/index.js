@@ -2,6 +2,9 @@
 
 import express from 'express';
 import cors from 'cors';
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 import usersRoutes from './routes/users.js'
 import journalsRoutes from './routes/journals.js'

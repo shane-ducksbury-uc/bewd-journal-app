@@ -1,60 +1,63 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import {BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
 import './App.scss';
 import Header from './components/Header/Header';
-import JournalEntries from './views/JournalEntries/JournalEntries';
-import NewJournalEntry from './views/NewJournalEntry/NewJournalEntry'
-import { JournalEntry } from './views/JournalEntry/JournalEntry';
+import Journal from './views/Journal/Journal'
+import Login from './views/Login/Login';
+import Register from './views/Register/Register'
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
 
 function App() {
+  const [currentUser, setCurrentUser] = useState();
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
 
-  const [journalEntries, setJournalEntries] = useState([])
-  // State will be updated to use login instead. Setting state here for the moment.
-  const [currentUser, setCurrentUser] = [
-    {
-      email: "my_email@email.com",
-      password: "password",
-      first_name: "Harry",
-      last_name: "Potter",
-      salt: null,
-      id: "4df3bd9a-c276-4d96-b3ef-70cd5c905238",
-    },
-  ];
-
-  const handleJournalEntries = (e) => {
-    setJournalEntries(e)
+  const handleSetCurrentUser = (e) => {
+    setCurrentUser(e)
+    setUserLoggedIn(true)
   }
+
+  const handleLogout = (e) => {
+    setCurrentUser();
+    localStorage.clear()
+    setUserLoggedIn(false)
+  }
+
+  // https://www.freecodecamp.org/news/how-to-persist-a-logged-in-user-in-react/
+  useEffect(() => {
+    const currentUser = localStorage.getItem('currentUser')
+    if (currentUser) {
+      setUserLoggedIn(true)
+    }
+  }, [userLoggedIn])
 
   return (
     <>
-    <Router>
-    <Header currentUser={currentUser}/>
-      <Switch>
-        <Route path='/new-journal-entry'>
-          <NewJournalEntry />
-        </Route>
-        <Route exact path='/journal'>
-          <JournalEntries journalEntries={journalEntries} handleJournalEntries={handleJournalEntries} currentUser={currentUser}/>
-        </Route>
-        <Route path='/journal/:journalEntryId'>
-            <JournalEntry />
-        </Route>
-        <Route path='/'>
-          <Home />
-        </Route>
-      </Switch>
-    </Router>
-
+      <Router>
+        <Header handleLogout={handleLogout}/>
+        <Switch>
+          <Route path="/login">
+            {userLoggedIn ? <Redirect to='/' /> :
+            <Login currentUser={currentUser} setCurrentUser={handleSetCurrentUser} />
+            }
+          </Route>
+          <Route path="/register">
+            {userLoggedIn ? <Redirect to='/' /> : <Register />}
+          </Route>
+        </Switch>
+        <ProtectedRoute exact path='/' component={Home} userLoggedIn={userLoggedIn} />
+        <ProtectedRoute path='/journals' component={Journal} userLoggedIn={userLoggedIn}/>
+      </Router>
     </>
-  )
+  );
+
 
   function Home(){
     return(
       <div>
         <h2>Journal App Home</h2>
-        {<p>Hello, {currentUser.first_name} </p>}
+        {userLoggedIn ? <p>Hello {currentUser.first_name}</p> : ''}   
       </div>
     )
       }

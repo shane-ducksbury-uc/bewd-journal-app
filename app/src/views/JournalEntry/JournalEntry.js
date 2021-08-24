@@ -7,15 +7,15 @@ export const JournalEntry = () => {
     const [dataLoaded, setDataLoaded] = useState(false)
 
     const history = useHistory()
-    const { journalEntryId } = useParams()
+    const { journalId, journalEntryId } = useParams()
     const API_ENDPOINT = 'http://localhost:5000/entries/'
-
+    
     const deleteJournalEntry = async () => {
         const response = window.confirm('Are you sure you want to delete?')
         if (response){
             await Axios.delete(`${API_ENDPOINT}${journalEntryId}`)
             window.alert('Journal Entry Deleted')
-            history.push('/journal')
+            history.push(`/journals/${journalId}`)
         }
     }
     
@@ -41,3 +41,5 @@ export const JournalEntry = () => {
         return <p>Data is still loading.</p>
     }
 }
+
+export default JournalEntry

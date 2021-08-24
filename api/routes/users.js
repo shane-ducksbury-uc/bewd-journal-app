@@ -1,18 +1,19 @@
 import express from 'express';
 
-import { getUsers, createUser, getUser, deleteUser, updateUser, getUserJournals } from '../controllers/users.js';
+import { getUsers, createUser, logUserIn, updateUser, getUserJournals } from '../controllers/users.js';
+import { authenticateToken } from '../controllers/authentication.js';
 
 const router = express.Router();
 
 
-router.get('/', getUsers)
+router.get('/', authenticateToken, getUsers)
 
 router.post('/', createUser)
 
-// Adding a colon means there could be anything on this route of :id
-router.get('/:id', getUser)
+router.post('/login', logUserIn)
 
-router.delete('/:id', deleteUser)
+// Don't think I need to be able to delete user
+// router.delete('/:id', deleteUser)
 
 // PATCH vs PUT. Patch is to update just some things. PUT is a full overwrite.
 router.patch('/:id', updateUser)

@@ -2,15 +2,15 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import HeaderModuleCSS from './Header.module.css'
 
-function Header() {
+function Header({ handleLogout }) {
     return (
         <header className={HeaderModuleCSS.journalAppHeader}>
             <Link to='/'><h2>Journaling App</h2></Link>
             <nav>
                 <ul>
-                    <li><Link to='/journal'>Journal</Link></li>
-                    <li><Link to='/new-journal-entry'>New Entry</Link></li>
+                    <li><Link to='/journals'>Journals</Link></li>
                 </ul>
+                <button onClick={handleLogout}>Logout</button>
             </nav>
         </header>
     )
