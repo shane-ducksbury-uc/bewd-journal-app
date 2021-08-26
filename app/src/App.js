@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect, useHistory } from 'react-router-dom';
 
 import './App.scss';
 import Header from './components/Header/Header';
@@ -55,10 +55,7 @@ function App() {
 
   function Home(){
     return(
-      <div>
-        <h2>Journal App Home</h2>
-        {userLoggedIn ? <p>Hello {currentUser.first_name}</p> : ''}   
-      </div>
+      <Redirect to='/journals/' />
     )
       }
 }

@@ -4,7 +4,7 @@ import NewJournalEntryCSS from './NewJournalEntry.module.css'
 import { v4 as uuidv4 } from 'uuid';
 import { useHistory, useParams } from 'react-router-dom';
 
-function NewJournalEntry() {
+function NewJournalEntry({ handleForceRefresh }) {
     const history = useHistory()
     // May not need the below id field?
     const [formData, updateFormData] = useState({'id': uuidv4()})
@@ -32,7 +32,12 @@ function NewJournalEntry() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         const response = await addJournalEntry(formData)
-        response.status === 201 ? history.push(`/journals/${journalId}`) : console.log('Something didnt work, need to put an error in here.')
+        if(response.status === 201) {
+            handleForceRefresh(false)
+            history.push(`/journals/${journalId}`) 
+        } else {
+            console.log('Something didnt work, need to put an error in here.')
+        }
     }
 
     return (

@@ -57,20 +57,18 @@ function Journal() {
                   })}
                 </ul>
               </div>
-              <div>
+              <div className="journal-content-wrapper">
             {/* <Switch> */}
                 <Route path="/journals/:journalId">
                     <JournalEntries />
                 </Route>
-                <Route path="/journals/:journalId/new">
+                {/* <Route path="/journals/:journalId/new">
                     <NewJournalEntry />
-                </Route>
+                </Route> */}
             {/* </Switch> */}
               </div>
               <div>
-                <Route path={`/journals/${currentJournal}/:journalEntryId`}>
-                    <JournalEntry />
-                </Route>
+
               </div>
             </div>
           </>

@@ -1,32 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams, useRouteMatch } from 'react-router-dom';
+import { Route, Link, useParams, useRouteMatch, Switch } from 'react-router-dom';
 import Axios from 'axios';
+import JournalEntry from "../JournalEntry/JournalEntry";
+import NewJournalEntry from "../NewJournalEntry/NewJournalEntry";
 
 function JournalEntries() {
 
   const [journalEntries, setJournalEntries] = useState()
-  const [dataLoaded, setDataLoaded] = useState(false)
   const { journalId } = useParams()
-  const { url } = useRouteMatch()
+  const [currentJournalId, setCurrentJournalId] = useState(journalId) 
+  const [dataLoaded, setDataLoaded] = useState(false)
+  const { url, path } = useRouteMatch()
 
-  const getJournalEntries = () => {
-    // Need to refactor this to better suit the useEffect function.
-    // if (userJournals){
-      // const TEMP_URL = "http://localhost:5000/journals/c7d4f707-8eda-4739-ac2f-183543186542"
-      const API_ENDPOINT = "http://localhost:5000/journals/"
-      console.log("went to the endpoint")
-      Axios.get(`${API_ENDPOINT}${journalId}`).then( response => {
-        setJournalEntries(response.data)
-        setDataLoaded(true)
-      })
-    // }
+  const handleForceRefresh = (e) => {
+    setDataLoaded(false)
   }
 
-  // Calling useEffect with the expected array means it will only load once. Cannot work out what the fcking linter is complaining about.
-  useEffect(getJournalEntries, [dataLoaded])
+  useEffect(() => {
+    async function getData(){
+      const API_ENDPOINT = "http://localhost:5000/journals/"
+      console.log("went to the endpoint")
+      const response = await Axios.get(`${API_ENDPOINT}${journalId}`)
+      setJournalEntries(response.data.reverse())
+      setDataLoaded(true)
+    } if(!dataLoaded) getData() 
+  }, [dataLoaded])
 
   if (dataLoaded){
     return (
+      <>
       <div>
         <Link to={`${url}/new`}><button>New Entry</button></Link>
         {journalEntries.map((entry) => {
@@ -38,6 +40,17 @@ function JournalEntries() {
           );
         })}
       </div>
+      <div>
+        <Switch>
+          <Route path={`${path}/new`}>
+              <NewJournalEntry handleForceRefresh={handleForceRefresh} />
+            </Route>
+          <Route exact path={`${path}/:journalEntryId`}>
+            <JournalEntry currentJournalId={currentJournalId} handleForceRefresh={handleForceRefresh}/>
+          </Route>
+        </Switch>
+      </div>
+      </>
     );
   } else {
     return(<p>Data not yet loaded</p>)

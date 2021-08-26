@@ -20,9 +20,14 @@ body{
 }
 
 .journal-wrapper {
-    background-color: chartreuse;
+    // background-color: chartreuse;
     min-height: 50%;
     display: flex;
     align-items: flex-start;
     justify-content: space-around;
+}
+
+.journal-content-wrapper {
+    min-width: 80%;
+    display: flex;
 }

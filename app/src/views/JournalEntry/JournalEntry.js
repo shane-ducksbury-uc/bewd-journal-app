@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import Axios from 'axios';
 
-export const JournalEntry = () => {
+export const JournalEntry = ({ currentJournalId, handleForceRefresh }) => {
     const [journalEntry, setJournalEntry] = useState()
     const [dataLoaded, setDataLoaded] = useState(false)
 
     const history = useHistory()
-    const { journalId, journalEntryId } = useParams()
+    const { journalEntryId } = useParams()
     const API_ENDPOINT = 'http://localhost:5000/entries/'
     
     const deleteJournalEntry = async () => {
@@ -15,7 +15,8 @@ export const JournalEntry = () => {
         if (response){
             await Axios.delete(`${API_ENDPOINT}${journalEntryId}`)
             window.alert('Journal Entry Deleted')
-            history.push(`/journals/${journalId}`)
+            history.push(`/journals/${currentJournalId}`)
+            handleForceRefresh(false)
         }
     }
     
@@ -25,9 +26,9 @@ export const JournalEntry = () => {
             setJournalEntry(response.data)
             setDataLoaded(true)
         }
-        if (!dataLoaded){ getData() } 
+        if ( !dataLoaded || journalEntryId !== journalEntry.journal_entry_id){ getData() } 
         // eslint-disable-next-line
-    }, [dataLoaded])
+    }, [dataLoaded, journalEntryId])
     
     if (dataLoaded) {
         return(
