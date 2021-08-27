@@ -3,6 +3,7 @@ import Axios from 'axios';
 import NewJournalEntryCSS from './NewJournalEntry.module.css'
 import { v4 as uuidv4 } from 'uuid';
 import { useHistory, useParams } from 'react-router-dom';
+import Editor from 'rich-markdown-editor'
 
 function NewJournalEntry({ handleForceRefresh }) {
     const history = useHistory()
@@ -45,8 +46,7 @@ function NewJournalEntry({ handleForceRefresh }) {
             <h1 className={NewJournalEntryCSS.test}>New Journal Entry</h1>
             <label htmlFor="title">Title: </label>
             <input type="text" name="title" onChange={handleChange} />
-            <label htmlFor="content">Content: </label>
-            <textarea name="content" cols="30" rows="10" onChange={handleChange}></textarea>
+            <Editor />
             <div>
                 <button onClick={handleSubmit}>Save</button>
                 <button>Cancel</button>

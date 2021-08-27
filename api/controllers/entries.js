@@ -1,13 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
-import pg from 'pg';
+import { createDbConnection } from '../config.js';
 
-const pool = new pg.Pool({
-    user: 'admin',
-    host: 'localhost',
-    database: 'journal-app',
-    password: 'password',
-    port: 5432
-})
+const pool = createDbConnection()
 
 export const createJournalEntry = (req, res) => {
     const newJournalEntry = req.body

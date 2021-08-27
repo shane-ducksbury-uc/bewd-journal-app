@@ -32,7 +32,7 @@ export const JournalEntry = ({ currentJournalId, handleForceRefresh }) => {
     
     if (dataLoaded) {
         return(
-            <div>
+            <div className="journal-entry">
                 <h1>{journalEntry[0].title}</h1>
                 <p>{journalEntry[0].content}</p>
                 <button onClick={deleteJournalEntry}>Delete</button>

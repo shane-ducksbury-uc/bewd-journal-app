@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Switch, Route, Link, useRouteMatch } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import Axios from 'axios'
+import FeatherIcon from 'feather-icons-react'
 
 import JournalEntries from '../JournalEntries/JournalEntries';
-import NewJournalEntry from '../NewJournalEntry/NewJournalEntry';
-import JournalEntry from '../JournalEntry/JournalEntry';
 
 function Journal() {
 
@@ -20,7 +19,6 @@ function Journal() {
         const url = `${API_ENDPOINT}${userId}/journals`
         // All of these should probably be in try catch
         const response = await Axios.get(url)
-        console.log(response.data)
         setUserJournals(response.data)
         setDataLoaded(true)
       }
@@ -43,29 +41,23 @@ function Journal() {
         return (
           <>
             <div className="journal-wrapper">
-              <div>
-                <ul>
+              
+              <div className="journals-list">
                   {userJournals.map((journal) => {
                     return (
                       <Link
                         to={`/journals/${journal.journal_id}`}
                         key={journal.journal_id} onClick={() => handleJournalClick(journal.journal_id)}
                       >
-                        <li>{journal.journal_title}</li>
+                        <FeatherIcon icon="book-open" size="48" />
                       </Link>
                     );
                   })}
-                </ul>
               </div>
               <div className="journal-content-wrapper">
-            {/* <Switch> */}
                 <Route path="/journals/:journalId">
                     <JournalEntries />
                 </Route>
-                {/* <Route path="/journals/:journalId/new">
-                    <NewJournalEntry />
-                </Route> */}
-            {/* </Switch> */}
               </div>
               <div>
 

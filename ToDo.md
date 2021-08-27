@@ -1,5 +1,13 @@
 ## To Do
 
+## To Do As Priority Tonight / Tomorrow morning
+- Convert DB connection into env (done)
+- Convert Docker Compose variables into env (done)
+- Set up linode server
+- Set up NGINX
+- Work out how to deploy an app to prod with React
+- See if can set up automated deployment (rollup/docker?)
+
 ## Hosting
 - Determine hosting location
 - Set up automated deployment?
@@ -8,6 +16,8 @@
 ### Overall Journal
 - Ability to add new journals (done)
 - Improve the input of the form data
+- decide if rich-markdown-editor is the right tool
+- Crashes on Network Error (need to catch and turn into some sort of errors.)
 
 ### Login Page
 - Make the login and registration pages much nicer.
@@ -19,7 +29,7 @@
 - App is now crashing on different route refresh than home (something to do with redirect) (fixed)
 - Not rendering routes correctly on three pane view. (fixed)
 - Need to add in a 404
-- New Journal Entry Not working in third windw pane (now fixed)
+- New Journal Entry Not working in third window pane (now fixed)
 
 ### Main Page
 - Routing (In progress)

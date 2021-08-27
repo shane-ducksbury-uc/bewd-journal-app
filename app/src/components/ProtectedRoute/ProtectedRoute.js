@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Link } from 'react-router-dom'
 
 const ProtectedRoute = ({ component: Component, userLoggedIn, ...rest }) => {
 
@@ -8,7 +8,11 @@ const ProtectedRoute = ({ component: Component, userLoggedIn, ...rest }) => {
             if(userLoggedIn){
                 return <Component {...rest} {...props} />
             } else {
-                return <p>403 Unauthorized</p>
+                return (
+                    <>
+                <p>403 Unauthorized</p>
+                <Link to='/login'>Go to Login</Link>
+                </>)
             }
         }} />
             

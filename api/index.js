@@ -22,8 +22,6 @@ app.use('/journals', journalsRoutes)
 app.use('/entries', entriesRoutes)
 
 // This creates a route
-app.get('/', (req, res) => res.send('Hello from Homepage'));
-
-
+// app.get('/', (req, res) => res.send('Hello from Homepage'));
 
 app.listen(PORT, () => {console.log(`Server is running on port: http://localhost:${PORT}`)})

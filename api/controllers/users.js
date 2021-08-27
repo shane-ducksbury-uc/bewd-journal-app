@@ -1,15 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
-import pg from 'pg';
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
-const pool = new pg.Pool({
-    user: 'admin',
-    host: 'localhost',
-    database: 'journal-app',
-    password: 'password',
-    port: 5432
-})
+import { createDbConnection } from '../config.js';
+
+const pool = createDbConnection()
 
 export const createUser = async (req, res) => {
     const newUser = req.body
@@ -126,6 +121,7 @@ export const getUserJournals = (req, res) => {
     pool.query(`SELECT * FROM journals WHERE owner = '${id}'`, (error, results) => {
         // This has crap error handling. Currently there is nothing stopping this from breaking if you put the wrong thing in the route.
         if(error) {
+            console.log(error.message)
             res.status(400).json(error.message)
         } else {
             res.status(200).json(results.rows)

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Route, Link, useParams, useRouteMatch, Switch } from 'react-router-dom';
+import { Route, Link, NavLink, useParams, useRouteMatch, Switch } from 'react-router-dom';
 import Axios from 'axios';
 import JournalEntry from "../JournalEntry/JournalEntry";
 import NewJournalEntry from "../NewJournalEntry/NewJournalEntry";
+import FeatherIcon from 'feather-icons-react'
 
 function JournalEntries() {
 
@@ -29,18 +30,20 @@ function JournalEntries() {
   if (dataLoaded){
     return (
       <>
-      <div>
-        <Link to={`${url}/new`}><button>New Entry</button></Link>
+      <div className="journal-entries-list">
+        <Link to={`${url}/new`} className="new-journal-entry-button"><FeatherIcon icon="plus"/>New Entry</Link>
         {journalEntries.map((entry) => {
           return (
-            <div key={entry.journal_entry_id}>
-              <Link to={`${url}/${entry.journal_entry_id}`}><h2>{entry.title}</h2></Link>
-              <p>{entry.content}</p>
-            </div>
+            <NavLink to={`${url}/${entry.journal_entry_id}`} key={entry.journal_entry_id} className="journal-entry-menu-item" activeClassName="selected">
+                <div >
+                <h2>{entry.title}</h2>
+                <p>{entry.content}</p>
+                </div>
+                </NavLink>
           );
         })}
       </div>
-      <div>
+      <div className="journal-entry-container">
         <Switch>
           <Route path={`${path}/new`}>
               <NewJournalEntry handleForceRefresh={handleForceRefresh} />
