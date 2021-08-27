@@ -45,6 +45,7 @@ export const logUserIn = async (req, res) => {
     try{
         pool.query(`SELECT * from users WHERE email='${userCreds.email.toString().trim()}';`, async (error, results) => {
             if (error) {
+                console.log(error.message)
                 res.status(500).json(error.message)
             } else {
                 if (results.rows.length === 0) return res.sendStatus(401)

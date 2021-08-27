@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export const createDbConnection = () => {
+    console.log(process.env.POSTGRES_USER)
     return new pg.Pool({
     user: `${process.env.POSTGRES_USER}`,
     host: `${process.env.POSTGRES_HOST}`,
