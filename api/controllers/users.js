@@ -13,7 +13,6 @@ export const createUser = async (req, res) => {
         try {
             const hashedPassword = await bcrypt.hash(newUser.password, 10)
             const newUserId = uuidv4()
-            console.log(newUserId)
             const userInsert = `'${newUserId}', '${newUser.email}', '${hashedPassword}', '${newUser.firstName}', '${newUser.lastName}'`.toString()
             const journalInsert = `'${uuidv4()}', '${newUserId}', 'My Daily Journal', CURRENT_TIMESTAMP`.toString()
 
@@ -22,7 +21,6 @@ export const createUser = async (req, res) => {
             INSERT INTO journals (journal_id, owner, journal_title, date_created) VALUES (${journalInsert});
             `, (error, results) => {
                 if (error) {
-                    console.log(error.message)
                     res.status(500).json(error.message)
                     return
                 } else {
@@ -30,7 +28,6 @@ export const createUser = async (req, res) => {
                 }
             })
         } catch (e) {
-            console.log(e.message)
             res.sendStatus(500)
         }
     } else {
@@ -45,7 +42,6 @@ export const logUserIn = async (req, res) => {
     try{
         pool.query(`SELECT * from users WHERE email='${userCreds.email.toString().trim()}';`, async (error, results) => {
             if (error) {
-                console.log(error.message)
                 res.status(500).json(error.message)
             } else {
                 if (results.rows.length === 0) return res.sendStatus(401)
@@ -122,7 +118,6 @@ export const getUserJournals = (req, res) => {
     pool.query(`SELECT * FROM journals WHERE owner = '${id}'`, (error, results) => {
         // This has crap error handling. Currently there is nothing stopping this from breaking if you put the wrong thing in the route.
         if(error) {
-            console.log(error.message)
             res.status(400).json(error.message)
         } else {
             res.status(200).json(results.rows)

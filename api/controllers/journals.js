@@ -7,10 +7,8 @@ export const createJournal = (req, res) => {
     const newJournal = req.body
     const { userId } = req.params
     const insertStatementContent = `'${uuidv4()}', '${userId}', '${newJournal.title}', CURRENT_TIMESTAMP`
-    console.log(insertStatementContent)
     pool.query(`INSERT INTO journals (journal_id, owner, journal_title, date_created) VALUES (${insertStatementContent});`, (error, results) => {
         if (error) {
-            console.log('Crap.')
             res.status(400).json(error.message)
         } else {
             res.status(201).send('Journal Added')
