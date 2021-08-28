@@ -13,7 +13,7 @@ function Login({ currentUser, setCurrentUser }) {
       };
 
     const checkUserCreds = async (formData) => {
-        const API_ENDPOINT = 'http://localhost:5000/users/login'
+        const API_ENDPOINT = 'http://api:5000/users/login'
         try {
             const response = await axios.post(API_ENDPOINT, formData)
             return response.data
@@ -23,7 +23,7 @@ function Login({ currentUser, setCurrentUser }) {
     }
 
     const getUserDetails = async (token) => {
-        const API_ENDPOINT = 'http://localhost:5000/users'
+        const API_ENDPOINT = 'http://api:5000/users'
         try {
             const response = await axios.get(API_ENDPOINT, {
                 headers: {
