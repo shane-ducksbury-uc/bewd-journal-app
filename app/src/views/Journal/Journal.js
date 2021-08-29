@@ -4,6 +4,7 @@ import Axios from 'axios'
 import FeatherIcon from 'feather-icons-react'
 
 import JournalEntries from '../JournalEntries/JournalEntries';
+import { toast } from 'react-toastify';
 
 function Journal() {
 
@@ -16,11 +17,14 @@ function Journal() {
       async function getData(){
         const API_ENDPOINT = "http://localhost:5000/users/"
         const userId = currentUser.id
-        const url = `${API_ENDPOINT}${userId}/journals`
-        // All of these should probably be in try catch
-        const response = await Axios.get(url)
-        setUserJournals(response.data)
-        setDataLoaded(true)
+        try {
+          const url = `${API_ENDPOINT}${userId}/journals`
+          const response = await Axios.get(url)
+          setUserJournals(response.data)
+          setDataLoaded(true)
+        } catch {
+          toast.error(`Couldn't reach the server. Try again later.`, { autoClose:false })
+        }
       }
       if (!dataLoaded && currentUser) getData()
     }, [currentUser])

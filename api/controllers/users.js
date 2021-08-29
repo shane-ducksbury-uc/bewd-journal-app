@@ -50,6 +50,7 @@ export const logUserIn = async (req, res) => {
                     // Check the password against the salted hash
                     if(await bcrypt.compare(userCreds.password, user.password)){
                         // Generate a JWT
+                        delete user.password
                         const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
                         res.status(200).json({ accessToken: accessToken })
                     } else {
@@ -68,7 +69,7 @@ export const logUserIn = async (req, res) => {
 export const getUsers = (req, res) => {
     const user = req.user
     try {
-        pool.query(`SELECT * FROM users where id='${user.id.toString()}'`, (error, results) => {
+        pool.query(`SELECT email, id, first_name, last_name FROM users where id='${user.id.toString()}'`, (error, results) => {
             if(error) {
                 res.status(400).send()
             } else {

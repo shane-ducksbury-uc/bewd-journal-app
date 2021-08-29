@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify'
+
 
 import './App.scss';
+import 'react-toastify/dist/ReactToastify.css';
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
 import Header from './components/Header/Header';
 import Journal from './views/Journal/Journal'
 import Login from './views/Login/Login';
 import Register from './views/Register/Register'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import Debug from './views/DebugView/Debug';
 
 
 function App() {
@@ -35,6 +41,7 @@ function App() {
   return (
     <>
       <Router>
+        <ToastContainer />
         <Header handleLogout={handleLogout}/>
         <Switch>
           <Route path="/login">
@@ -44,6 +51,9 @@ function App() {
           </Route>
           <Route path="/register">
             {userLoggedIn ? <Redirect to='/' /> : <Register />}
+          </Route>
+          <Route path="/debug">
+            <Debug />
           </Route>
         </Switch>
         <ProtectedRoute exact path='/' component={Home} userLoggedIn={userLoggedIn} />

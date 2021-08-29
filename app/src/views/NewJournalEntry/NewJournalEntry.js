@@ -3,12 +3,16 @@ import Axios from 'axios';
 import NewJournalEntryCSS from './NewJournalEntry.module.css'
 import { v4 as uuidv4 } from 'uuid';
 import { useHistory, useParams } from 'react-router-dom';
-import Editor from 'rich-markdown-editor'
+import { toast } from 'react-toastify';
+import { EditorState, convertToRaw } from 'draft-js'
+import { Editor } from 'react-draft-wysiwyg'
+import draftToHtml from 'draftjs-to-html'
 
 function NewJournalEntry({ handleForceRefresh }) {
     const history = useHistory()
     // May not need the below id field?
     const [formData, updateFormData] = useState({'id': uuidv4()})
+    const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
     const { journalId } = useParams()
 
     // https://linguinecode.com/post/how-to-get-form-data-on-submit-in-reactjs
@@ -20,25 +24,35 @@ function NewJournalEntry({ handleForceRefresh }) {
       });
     };
 
-    const addJournalEntry = (formData) => {
+    const addJournalEntry = (formData, editorState) => {
         const newJournalURL = 'http://localhost:5000/entries/'
         const journalData = {
             "associated_journal": journalId,
             "title": formData.title,
-            "content": formData.content
+            "content": JSON.stringify({ "rawEditorState" : JSON.stringify(editorState.getCurrentContent()),
+            "plainEntryText": editorState.getCurrentContent().getPlainText(),
+            "htmlEntryText": draftToHtml(convertToRaw(editorState.getCurrentContent()))
+            })
         }
+        console.log(journalData)
         return Axios.post(newJournalURL, journalData)
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const response = await addJournalEntry(formData)
-        if(response.status === 201) {
-            handleForceRefresh(false)
-            history.push(`/journals/${journalId}`) 
-        } else {
-            console.log('Something didnt work, need to put an error in here.')
+        try {
+            const response = await addJournalEntry(formData, editorState)
+            if(response.status === 201) {
+                handleForceRefresh(false)
+                history.push(`/journals/${journalId}`)} 
+        } catch (e) {
+            toast.error(`Something went wrong. Try again later.`, { autoClose:false })
         }
+    }
+
+    const logContents = () => {
+        const content = editorState.getCurrentContent().
+        console.log(content)
     }
 
     return (
@@ -46,9 +60,16 @@ function NewJournalEntry({ handleForceRefresh }) {
             <h1 className={NewJournalEntryCSS.test}>New Journal Entry</h1>
             <label htmlFor="title">Title: </label>
             <input type="text" name="title" onChange={handleChange} />
-            <Editor />
+            <Editor 
+            editorState={editorState}
+            toolbarClassName="toolbarClassName"
+            wrapperClassName="wrapperClassName"
+            editorClassName="editorClassName"
+            onEditorStateChange={setEditorState} 
+            />
             <div>
                 <button onClick={handleSubmit}>Save</button>
+                <button onClick={logContents}>Check Shit</button>
                 <button>Cancel</button>
             </div>
         </div>

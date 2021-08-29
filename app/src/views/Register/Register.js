@@ -1,6 +1,7 @@
 import Axios from 'axios';
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify';
 
 function Register() {
     const history = useHistory()
@@ -15,17 +16,16 @@ function Register() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const API_ENDPOINT = 'http://api:5000/users'
+        const API_ENDPOINT = 'http://localhost:5000/users'
         try {
             console.log(formData)
             const response = await Axios.post(API_ENDPOINT, formData)
             if (response.status === 201) {
+                toast.success('User account successfully created.')
                 history.push('/login')
-            } else {
-                console.log('Something Went Wrong')
             }
         } catch (e) {
-            console.log(e.message)
+            toast.error(`Something went wrong. Try again later.`, { autoClose:false })
         }
     }
 

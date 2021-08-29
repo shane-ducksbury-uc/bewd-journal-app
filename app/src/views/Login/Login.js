@@ -1,6 +1,9 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
+
+
 
 function Login({ currentUser, setCurrentUser }) {
     const [formData, updateFormData] = useState()
@@ -13,17 +16,24 @@ function Login({ currentUser, setCurrentUser }) {
       };
 
     const checkUserCreds = async (formData) => {
-        const API_ENDPOINT = 'http://api:5000/users/login'
+        const API_ENDPOINT = 'http://localhost:5000/users/login'
         try {
             const response = await axios.post(API_ENDPOINT, formData)
+            // console.log(response)
             return response.data
         } catch (e) {
-            console.log(e.message)
+            if (e.response){
+                if (e.response.status === 401){
+                    toast.error('Incorrect Credentials')
+                }
+            } else {
+                toast.error(`Something went wrong. Try again later.`, { autoClose:false })
+            }
         }
     }
 
     const getUserDetails = async (token) => {
-        const API_ENDPOINT = 'http://api:5000/users'
+        const API_ENDPOINT = 'http://localhost:5000/users'
         try {
             const response = await axios.get(API_ENDPOINT, {
                 headers: {
@@ -32,7 +42,7 @@ function Login({ currentUser, setCurrentUser }) {
             })
             return response.data
         } catch (e) {
-            console.log(e.message)
+            toast.error(`Something went wrong. Try again later.`, { autoClose:false })
         }
     }
     
