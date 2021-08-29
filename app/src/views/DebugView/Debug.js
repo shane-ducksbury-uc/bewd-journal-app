@@ -15,7 +15,7 @@ function Debug() {
     const checkEndpoint = async () => {
         try {
             const url = formData.url
-            const response = await axios.get(`http://${url}:5000/health`)
+            const response = await axios.get(`${url}`)
             console.log('Bingo.')
             console.log(response)
         } catch(e) {
