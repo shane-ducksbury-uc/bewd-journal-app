@@ -13,7 +13,7 @@ import entriesRoutes from './routes/entries.js'
 
 const app = express();
 const PORT = 5000;
-const HOST = '0.0.0.0'
+// const HOST = '0.0.0.0'
 
 app.use(express.json());
 app.use(cors())
@@ -29,5 +29,5 @@ app.get('/health', (req, res) => res.status(200).send('Server Running'))
 // This creates a route
 // app.get('/', (req, res) => res.send('Hello from Homepage'));
 
-app.listen(PORT, HOST, () => {console.log(`Server is running on port: ${PORT}`)})
+app.listen(PORT, () => {console.log(`Server is running on port: ${PORT}`)})
 app.listen()
