@@ -34,7 +34,6 @@ function NewJournalEntry({ handleForceRefresh }) {
             "htmlEntryText": draftToHtml(convertToRaw(editorState.getCurrentContent()))
             })
         }
-        console.log(journalData)
         return Axios.post(newJournalURL, journalData)
     }
 
@@ -48,11 +47,6 @@ function NewJournalEntry({ handleForceRefresh }) {
         } catch (e) {
             toast.error(`Something went wrong. Try again later.`, { autoClose:false })
         }
-    }
-
-    const logContents = () => {
-        const content = editorState.getCurrentContent().
-        console.log(content)
     }
 
     return (
@@ -69,7 +63,6 @@ function NewJournalEntry({ handleForceRefresh }) {
             />
             <div>
                 <button onClick={handleSubmit}>Save</button>
-                <button onClick={logContents}>Check Shit</button>
                 <button>Cancel</button>
             </div>
         </div>
