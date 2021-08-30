@@ -10,7 +10,7 @@ function Header({ handleLogout }) {
 
     return (
         <header className={HeaderModuleCSS.journalAppHeader}>
-            <Link to='/'><h2>Journaling App</h2></Link>
+            <Link to='/'><h2>Bright Mind</h2></Link>
             <nav>
                 <ul>
                     <li><Link to='/journals'>Journals</Link></li>
