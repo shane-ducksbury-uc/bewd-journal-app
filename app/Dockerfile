@@ -1,4 +1,5 @@
 FROM node:current-alpine
+ENV REACT_APP_API_ENDPOINT api.brightmind.cc
 WORKDIR /usr/src/app
 COPY ./package*.json ./
 RUN npm install
