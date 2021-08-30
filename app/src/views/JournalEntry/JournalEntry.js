@@ -4,7 +4,7 @@ import Axios from 'axios';
 import { toast } from 'react-toastify';
 import parse from 'html-react-parser'
 
-export const JournalEntry = ({ currentJournalId, handleForceRefresh }) => {
+export const JournalEntry = ({ currentJournalId, handleForceRefresh, token }) => {
     const [journalEntry, setJournalEntry] = useState()
     const [dataLoaded, setDataLoaded] = useState(false)
 
@@ -17,7 +17,11 @@ export const JournalEntry = ({ currentJournalId, handleForceRefresh }) => {
         const response = window.confirm('Are you sure you want to delete?')
         if (response){
             try {
-                await Axios.delete(`${API_ENDPOINT}${journalEntryId}`)
+                await Axios.delete(`${API_ENDPOINT}${journalEntryId}`, {
+                    headers: {
+                      'Authorization': `Bearer ${token.accessToken}`
+                    }
+                  })
                 history.push(`/journals/${currentJournalId}`)
                 handleForceRefresh(false)
                 toast.success('Journal Entry Deleted')
@@ -27,10 +31,16 @@ export const JournalEntry = ({ currentJournalId, handleForceRefresh }) => {
         }
     }
     
+    // Realistically I don't need to go out to the API to get this
+    // as I get it in the main journal entries call. Anyway, here it is.
     useEffect(() => {
         async function getData() {
             try {
-                const response = await Axios.get(`${API_ENDPOINT}${journalEntryId}`)
+                const response = await Axios.get(`${API_ENDPOINT}${journalEntryId}`, {
+                    headers: {
+                      'Authorization': `Bearer ${token.accessToken}`
+                    }
+                  })
                 setJournalEntry(response.data)
                 setDataLoaded(true)
             } catch (e) {

@@ -15,6 +15,7 @@ function Journal() {
     const [dataLoaded, setDataLoaded] = useState(false)
     const [currentUser, setCurrentUser] = useState()
     const [currentJournal, setCurrentJournal] = useState()
+    const [token, setToken] = useState()
 
     useEffect(() => {
       async function getData(){
@@ -22,17 +23,27 @@ function Journal() {
         const userId = currentUser.id
         try {
           const url = `${API_ENDPOINT}${userId}/journals`
-          const response = await Axios.get(url)
+          const response = await Axios.get(url, {
+            headers: {
+              'Authorization': `Bearer ${token.accessToken}`
+            }
+          })
           setUserJournals(response.data)
           setDataLoaded(true)
-        } catch {
+        } catch (e) {
+          console.log(e.message)
           toast.error(`Couldn't reach the server. Try again later.`, { autoClose:false })
         }
       }
       if (!dataLoaded && currentUser) getData()
-    }, [currentUser])
+    }, [currentUser, token])
 
     useEffect(() => {
+      const token = localStorage.getItem('userToken')
+      if (token) {
+        const foundToken = JSON.parse(token)
+        setToken(foundToken)
+      }
       const currentUser = localStorage.getItem('currentUser')
       if (currentUser) {
         const foundUser = JSON.parse(currentUser)
@@ -68,7 +79,7 @@ function Journal() {
               
               <div className="journal-content-wrapper">
                 <Route path="/journals/:journalId">
-                    <JournalEntries />
+                    <JournalEntries token={token} />
                 </Route>
               </div>
               <div>

@@ -6,7 +6,7 @@ import NewJournalEntry from "../NewJournalEntry/NewJournalEntry";
 import FeatherIcon from 'feather-icons-react'
 import { toast } from 'react-toastify'
 
-function JournalEntries() {
+function JournalEntries({ token }) {
 
   const [journalEntries, setJournalEntries] = useState()
   const { journalId } = useParams()
@@ -22,7 +22,11 @@ function JournalEntries() {
     async function getData(){
       try {
         const API_ENDPOINT = `http://${process.env.REACT_APP_API_ENDPOINT}/journals/`
-        const response = await Axios.get(`${API_ENDPOINT}${journalId}`)
+        const response = await Axios.get(`${API_ENDPOINT}${journalId}`, {
+          headers: {
+            'Authorization': `Bearer ${token.accessToken}`
+          }
+        })
         setJournalEntries(response.data.reverse())
         setDataLoaded(true)
       } catch (e){
@@ -50,10 +54,10 @@ function JournalEntries() {
       <div className="journal-entry-container">
         <Switch>
           <Route path={`${path}/new`}>
-              <NewJournalEntry handleForceRefresh={handleForceRefresh} />
+              <NewJournalEntry handleForceRefresh={handleForceRefresh} token={token}/>
             </Route>
           <Route exact path={`${path}/:journalEntryId`}>
-            <JournalEntry currentJournalId={currentJournalId} handleForceRefresh={handleForceRefresh}/>
+            <JournalEntry currentJournalId={currentJournalId} handleForceRefresh={handleForceRefresh} token={token}/>
           </Route>
         </Switch>
       </div>

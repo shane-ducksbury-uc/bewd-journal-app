@@ -1,6 +1,7 @@
 import express from 'express';
 
 import { createJournal, getJournalEntries } from '../controllers/journals.js';
+import { authenticateToken } from '../controllers/authentication.js';
 
 const router = express.Router()
 
@@ -10,9 +11,9 @@ const router = express.Router()
 // })
 
 // TBD What I am going to do with this one
-router.post('/:userId', createJournal)
+router.post('/:userId', authenticateToken, createJournal)
 
-router.get('/:journalId', getJournalEntries)
+router.get('/:journalId', authenticateToken, getJournalEntries)
 
 // router.delete('/:journal-id', (req, res) => {
 

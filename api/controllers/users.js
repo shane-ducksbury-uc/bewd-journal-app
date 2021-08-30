@@ -93,7 +93,7 @@ export const deleteUser = (req, res) => {
 }
 
 export const getUserJournals = (req, res) => {
-    const { id } = req.params;
+    const { id } = req.user
     try {
         pool.query(`SELECT * FROM journals WHERE owner = '${id}'`, (error, results) => {
             if(error) {

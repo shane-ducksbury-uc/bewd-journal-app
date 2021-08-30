@@ -8,7 +8,7 @@ import { EditorState, convertToRaw } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg'
 import draftToHtml from 'draftjs-to-html'
 
-function NewJournalEntry({ handleForceRefresh }) {
+function NewJournalEntry({ handleForceRefresh, token }) {
     const history = useHistory()
     // May not need the below id field?
     const [formData, updateFormData] = useState({'id': uuidv4()})
@@ -34,7 +34,11 @@ function NewJournalEntry({ handleForceRefresh }) {
             "htmlEntryText": draftToHtml(convertToRaw(editorState.getCurrentContent()))
             })
         }
-        return Axios.post(newJournalURL, journalData)
+        return Axios.post(newJournalURL, journalData, {
+            headers: {
+              'Authorization': `Bearer ${token.accessToken}`
+            }
+          })
     }
 
     const handleSubmit = async (e) => {

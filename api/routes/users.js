@@ -15,7 +15,7 @@ router.post('/login', logUserIn)
 // Don't think I need to be able to delete user
 // router.delete('/:id', deleteUser)
 
-router.get('/:id/journals', getUserJournals)
+router.get('/:id/journals', authenticateToken, getUserJournals)
 
 // As with most JS, export to be used elsewhere
 export default router;
