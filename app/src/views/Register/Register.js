@@ -16,7 +16,8 @@ function Register() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const API_ENDPOINT = 'http://localhost:5000/users'
+        const API_ENDPOINT = `http://${process.env.REACT_APP_API_ENDPOINT}/users`
+        console.log(`The api is ${API_ENDPOINT}`)
         try {
             console.log(formData)
             const response = await Axios.post(API_ENDPOINT, formData)

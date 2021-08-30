@@ -16,7 +16,7 @@ function Login({ currentUser, setCurrentUser }) {
       };
 
     const checkUserCreds = async (formData) => {
-        const API_ENDPOINT = 'http://localhost:5000/users/login'
+        const API_ENDPOINT = `http://${process.env.REACT_APP_API_ENDPOINT}/users/login`
         try {
             const response = await axios.post(API_ENDPOINT, formData)
             // console.log(response)
@@ -33,7 +33,7 @@ function Login({ currentUser, setCurrentUser }) {
     }
 
     const getUserDetails = async (token) => {
-        const API_ENDPOINT = 'http://localhost:5000/users'
+        const API_ENDPOINT = `http://${process.env.REACT_APP_API_ENDPOINT}/users`
         try {
             const response = await axios.get(API_ENDPOINT, {
                 headers: {

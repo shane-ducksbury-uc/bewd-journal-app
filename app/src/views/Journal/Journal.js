@@ -15,7 +15,7 @@ function Journal() {
 
     useEffect(() => {
       async function getData(){
-        const API_ENDPOINT = "http://localhost:5000/users/"
+        const API_ENDPOINT = `http://${process.env.REACT_APP_API_ENDPOINT}/users/`
         const userId = currentUser.id
         try {
           const url = `${API_ENDPOINT}${userId}/journals`

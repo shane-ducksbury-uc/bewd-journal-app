@@ -21,7 +21,7 @@ function JournalEntries() {
   useEffect(() => {
     async function getData(){
       try {
-        const API_ENDPOINT = "http://localhost:5000/journals/"
+        const API_ENDPOINT = `http://${process.env.REACT_APP_API_ENDPOINT}/journals/`
         const response = await Axios.get(`${API_ENDPOINT}${journalId}`)
         setJournalEntries(response.data.reverse())
         setDataLoaded(true)

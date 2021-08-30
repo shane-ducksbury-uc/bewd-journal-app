@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify'
 
-
 import './App.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";

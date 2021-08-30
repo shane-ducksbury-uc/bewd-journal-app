@@ -25,7 +25,7 @@ function NewJournalEntry({ handleForceRefresh }) {
     };
 
     const addJournalEntry = (formData, editorState) => {
-        const newJournalURL = 'http://localhost:5000/entries/'
+        const newJournalURL = `http://${process.env.REACT_APP_API_ENDPOINT}/entries/`
         const journalData = {
             "associated_journal": journalId,
             "title": formData.title,
