@@ -92,36 +92,18 @@ export const deleteUser = (req, res) => {
     res.send(`User with ${id} deleted.`)
 }
 
-// Below needs to be updated to use SQL
-export const updateUser = (req, res) => {
-    const { id } = req.params;
-    const { firstName, lastName, age } = req.body;
-    
-    const user = users.find(user => user.id === id);
-
-    if(firstName){
-        user.firstName = firstName
-    }
-
-    if (lastName){
-        user.lastName = lastName
-    }
-
-    if (age){
-        user.age = age
-    }
-
-    res.send(user)
-}
-
 export const getUserJournals = (req, res) => {
     const { id } = req.params;
-    pool.query(`SELECT * FROM journals WHERE owner = '${id}'`, (error, results) => {
-        // This has crap error handling. Currently there is nothing stopping this from breaking if you put the wrong thing in the route.
-        if(error) {
-            res.status(400).json(error.message)
-        } else {
-            res.status(200).json(results.rows)
-        }
-    })
+    try {
+        pool.query(`SELECT * FROM journals WHERE owner = '${id}'`, (error, results) => {
+            if(error) {
+                res.status(400).json(error.message)
+            } else {
+                res.status(200).json(results.rows)
+            }
+        })
+    } catch (e) {
+        res.sendStatus(500)
+    }
+
 }

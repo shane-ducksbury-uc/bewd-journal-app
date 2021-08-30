@@ -19,7 +19,6 @@ function Login({ currentUser, setCurrentUser }) {
         const API_ENDPOINT = `http://${process.env.REACT_APP_API_ENDPOINT}/users/login`
         try {
             const response = await axios.post(API_ENDPOINT, formData)
-            // console.log(response)
             return response.data
         } catch (e) {
             if (e.response){
@@ -42,15 +41,18 @@ function Login({ currentUser, setCurrentUser }) {
             })
             return response.data
         } catch (e) {
-            toast.error(`Something went wrong. Try again later.`, { autoClose:false })
+            
         }
     }
     
     const handleSubmit = async (e) => {
         e.preventDefault()
         const token = await checkUserCreds(formData)
-        if(token) localStorage.setItem('userToken', JSON.stringify(token))
-        const user = await getUserDetails(token)
+        let user
+        if(token){
+            localStorage.setItem('userToken', JSON.stringify(token))
+            user = await getUserDetails(token)
+        }
         if(user){
             localStorage.setItem('currentUser', JSON.stringify(user[0]))
             setCurrentUser(user[0])

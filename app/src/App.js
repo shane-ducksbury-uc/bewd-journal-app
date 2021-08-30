@@ -4,7 +4,8 @@ import { ToastContainer } from 'react-toastify'
 
 import './App.scss';
 import 'react-toastify/dist/ReactToastify.css';
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import 'react-dropdown/style.css';
 
 import Header from './components/Header/Header';
 import Journal from './views/Journal/Journal'
@@ -41,7 +42,7 @@ function App() {
     <>
       <Router>
         <ToastContainer />
-        <Header handleLogout={handleLogout}/>
+        <Header handleLogout={handleLogout} userLoggedIn={userLoggedIn}/>
         <Switch>
           <Route path="/login">
             {userLoggedIn ? <Redirect to='/' /> :

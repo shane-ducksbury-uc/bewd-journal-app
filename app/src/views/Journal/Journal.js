@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import { Route, Link } from 'react-router-dom';
+import { Route, Link, useHistory } from 'react-router-dom';
 import Axios from 'axios'
 import FeatherIcon from 'feather-icons-react'
+import Dropdown from 'react-dropdown'
 
 import JournalEntries from '../JournalEntries/JournalEntries';
 import { toast } from 'react-toastify';
 
 function Journal() {
 
+    const history = useHistory()
+
     const [userJournals, setUserJournals] = useState()
     const [dataLoaded, setDataLoaded] = useState(false)
-    const [currentUser, setCurrentUser] = useState();
+    const [currentUser, setCurrentUser] = useState()
     const [currentJournal, setCurrentJournal] = useState()
 
     useEffect(() => {
@@ -37,27 +40,32 @@ function Journal() {
       }
     }, [])
 
-    const handleJournalClick = (e) => {
-      setCurrentJournal(e)
+    useEffect(() => {
+      async function pushJournal(){
+          const currentJournal = userJournals[0]
+          history.push(`/journals/${currentJournal.journal_id}`)
+          setCurrentJournal(currentJournal)
+        }
+      if (dataLoaded) pushJournal()
+    }, [dataLoaded])
+
+    const generateJournalDropdown = () => {
+        const journalDropdown = userJournals.map((journal) => {
+          return {value: journal.journal_id,
+          label: journal.journal_title}
+        })
+        return journalDropdown
     }
 
-    if(dataLoaded){
+    if(dataLoaded && currentJournal){
+        const journalDropdown = generateJournalDropdown()
+
         return (
           <>
+            <h2>{currentJournal.journal_title}</h2>
+            <Dropdown options={journalDropdown} value={currentJournal.journal_id}/>
             <div className="journal-wrapper">
               
-              <div className="journals-list">
-                  {userJournals.map((journal) => {
-                    return (
-                      <Link
-                        to={`/journals/${journal.journal_id}`}
-                        key={journal.journal_id} onClick={() => handleJournalClick(journal.journal_id)}
-                      >
-                        <FeatherIcon icon="book-open" size="48" />
-                      </Link>
-                    );
-                  })}
-              </div>
               <div className="journal-content-wrapper">
                 <Route path="/journals/:journalId">
                     <JournalEntries />

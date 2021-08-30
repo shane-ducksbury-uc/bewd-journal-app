@@ -39,7 +39,7 @@ function JournalEntries() {
         {journalEntries.map((entry) => {
           return (
             <NavLink to={`${url}/${entry.journal_entry_id}`} key={entry.journal_entry_id} className="journal-entry-menu-item" activeClassName="selected">
-                <div >
+                <div>
                 <h2>{entry.title}</h2>
                 <p>{entry.content.plainEntryText}</p>
                 </div>
