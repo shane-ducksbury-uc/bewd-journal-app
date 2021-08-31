@@ -21,7 +21,7 @@ function JournalEntries({ token }) {
   useEffect(() => {
     async function getData(){
       try {
-        const API_ENDPOINT = `https://${process.env.REACT_APP_API_ENDPOINT}/journals/`
+        const API_ENDPOINT = `${process.env.REACT_APP_API_ENDPOINT}/journals/`
         const response = await Axios.get(`${API_ENDPOINT}${journalId}`, {
           headers: {
             'Authorization': `Bearer ${token.accessToken}`
