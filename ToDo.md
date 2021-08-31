@@ -1,4 +1,4 @@
-## To Do
+## To Do - now out of date, have moved to Trello
 
 ## To Do As Priority Tonight / Tomorrow morning
 - Convert DB connection into env (done)
