@@ -16,7 +16,7 @@ function Login({ currentUser, setCurrentUser }) {
       };
 
     const checkUserCreds = async (formData) => {
-        const API_ENDPOINT = `https://${process.env.REACT_APP_API_ENDPOINT}/users/login`
+        const API_ENDPOINT = `${process.env.REACT_APP_API_ENDPOINT}/users/login`
         try {
             const response = await axios.post(API_ENDPOINT, formData)
             return response.data
