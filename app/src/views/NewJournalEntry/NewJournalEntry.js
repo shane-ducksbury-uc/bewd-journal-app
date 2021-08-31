@@ -28,11 +28,13 @@ function NewJournalEntry({ handleForceRefresh, token }) {
         const newJournalURL = `${process.env.REACT_APP_API_ENDPOINT}/entries/`
         const journalData = {
             "associated_journal": journalId,
-            "title": formData.title,
-            "content": JSON.stringify({ "rawEditorState" : JSON.stringify(editorState.getCurrentContent()),
-            "plainEntryText": editorState.getCurrentContent().getPlainText(),
-            "htmlEntryText": draftToHtml(convertToRaw(editorState.getCurrentContent()))
-            })
+            "title": formData.title.replace(/'/g,`''`),
+            "content": 
+            JSON.stringify({
+                "rawEditorState" : JSON.stringify(editorState.getCurrentContent()),
+                "plainEntryText": editorState.getCurrentContent().getPlainText(),
+                "htmlEntryText": draftToHtml(convertToRaw(editorState.getCurrentContent()))
+            }).replace(/'/g,`''`)
         }
         return Axios.post(newJournalURL, journalData, {
             headers: {

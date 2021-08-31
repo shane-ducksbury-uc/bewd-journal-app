@@ -20,6 +20,18 @@ body{
     font-family: 'Raleway', sans-serif;
 }
 
+h1 {
+    font-size: 2.6rem;
+}
+
+h2 {
+    font-size: 2.2rem;
+}
+
+h3 {
+    font-size: 1.8rem;
+}
+
 .journal-wrapper {
     // background-color: chartreuse;
     min-height: 100%;
@@ -50,7 +62,7 @@ body{
 
 .journal-entries-list {
     min-height: 100%;
-    min-width: 400px;
+    width: 550px;
     border-right: 2px solid #ededed;
     height: 100vh;
 }

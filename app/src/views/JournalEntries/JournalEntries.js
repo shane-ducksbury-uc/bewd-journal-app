@@ -47,7 +47,7 @@ function JournalEntries({ token }) {
                   <div className="card-header">
                     <div className="card-header-title">{entry.title}</div>
                   </div>
-                  <div className="card-content">{entry.content.plainEntryText}</div>
+                  <div className="card-content">{entry.content.plainEntryText.substring(0, 100)}{entry.content.plainEntryText.length > 100 ? '...' : ''}</div>
                 </div>
                 </NavLink>
           );
