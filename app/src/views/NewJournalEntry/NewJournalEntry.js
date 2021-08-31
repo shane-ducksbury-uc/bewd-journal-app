@@ -25,7 +25,7 @@ function NewJournalEntry({ handleForceRefresh, token }) {
     };
 
     const addJournalEntry = (formData, editorState) => {
-        const newJournalURL = `http://${process.env.REACT_APP_API_ENDPOINT}/entries/`
+        const newJournalURL = `${process.env.REACT_APP_API_ENDPOINT}/entries/`
         const journalData = {
             "associated_journal": journalId,
             "title": formData.title,
@@ -57,7 +57,7 @@ function NewJournalEntry({ handleForceRefresh, token }) {
         <div className={NewJournalEntryCSS.journalEntryWrapper}>
             <h1 className={NewJournalEntryCSS.test}>New Journal Entry</h1>
             <label htmlFor="title">Title: </label>
-            <input type="text" name="title" onChange={handleChange} />
+            <input className="input is-large"type="text" name="title" onChange={handleChange} />
             <Editor 
             editorState={editorState}
             toolbarClassName="toolbarClassName"
@@ -66,8 +66,8 @@ function NewJournalEntry({ handleForceRefresh, token }) {
             onEditorStateChange={setEditorState} 
             />
             <div>
-                <button onClick={handleSubmit}>Save</button>
-                <button>Cancel</button>
+                <button className="button is-primary" onClick={handleSubmit}>Save</button>
+                <button className="button is-secondary">Cancel</button>
             </div>
         </div>
     )

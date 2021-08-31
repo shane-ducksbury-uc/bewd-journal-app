@@ -4,10 +4,11 @@ import Axios from 'axios'
 import FeatherIcon from 'feather-icons-react'
 import Dropdown from 'react-dropdown'
 
+import Header from '../../components/Header/Header';
 import JournalEntries from '../JournalEntries/JournalEntries';
 import { toast } from 'react-toastify';
 
-function Journal() {
+function Journal({ handleLogout }) {
 
     const history = useHistory()
 
@@ -19,7 +20,7 @@ function Journal() {
 
     useEffect(() => {
       async function getData(){
-        const API_ENDPOINT = `http://${process.env.REACT_APP_API_ENDPOINT}/users/`
+        const API_ENDPOINT = `${process.env.REACT_APP_API_ENDPOINT}/users/`
         const userId = currentUser.id
         try {
           const url = `${API_ENDPOINT}${userId}/journals`
@@ -73,7 +74,8 @@ function Journal() {
 
         return (
           <>
-            <h2>{currentJournal.journal_title}</h2>
+            <Header handleLogout={handleLogout} />
+            <h2>Current Journal</h2>
             <Dropdown options={journalDropdown} value={currentJournal.journal_id}/>
             <div className="journal-wrapper">
               

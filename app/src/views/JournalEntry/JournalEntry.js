@@ -10,7 +10,7 @@ export const JournalEntry = ({ currentJournalId, handleForceRefresh, token }) =>
 
     const history = useHistory()
     const { journalEntryId } = useParams()
-    const API_ENDPOINT = `http://${process.env.REACT_APP_API_ENDPOINT}/entries/`
+    const API_ENDPOINT = `${process.env.REACT_APP_API_ENDPOINT}/entries/`
     
     const deleteJournalEntry = async () => {
         // Replace with a modal

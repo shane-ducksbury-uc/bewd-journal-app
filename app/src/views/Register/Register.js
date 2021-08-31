@@ -1,26 +1,20 @@
 import Axios from 'axios';
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
+import { useForm } from 'react-hook-form'
+
+
 
 function Register() {
     const history = useHistory()
-    const [formData, updateFormData] = useState()
+    const { register, handleSubmit, watch, formState: {errors}} = useForm() 
 
-    const handleChange = (e) => {
-        updateFormData({
-          ...formData,
-          [e.target.name]: e.target.value.trim(),
-        });
-      };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        const API_ENDPOINT = `http://${process.env.REACT_APP_API_ENDPOINT}/users`
-        console.log(`The api is ${API_ENDPOINT}`)
+    const onSubmit = async (data) => {
+        const API_ENDPOINT = `${process.env.REACT_APP_API_ENDPOINT}/users`
+        console.log(data)
         try {
-            console.log(formData)
-            const response = await Axios.post(API_ENDPOINT, formData)
+            const response = await Axios.post(API_ENDPOINT, data)
             if (response.status === 201) {
                 toast.success('User account successfully created.')
                 history.push('/login')
@@ -31,21 +25,22 @@ function Register() {
     }
 
     return (
-        <div>
-            <h1>Register an Account</h1>
-            <label htmlFor="email" required>Email: </label>
-            <input type="text" name="email" onChange={handleChange} />
-            <label htmlFor="password" required>Password: </label>
-            <input type="password" name="password" onChange={handleChange} />
-            <label htmlFor="firstName" required>First Name: </label>
-            <input type="text" name="firstName" onChange={handleChange} />
-            <label htmlFor="lastName" required>Last Name: </label>
-            <input type="text" name="lastName" onChange={handleChange} />
-            <div>
-                <button onClick={handleSubmit}>Register</button>
-                <button>Cancel</button>
-            </div>
-        </div>
+        <>
+        <main className="form-container">
+        <h1 className="is-size-1">Register a New Account</h1>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <label className="label" htmlFor="firstName" required>First Name: </label>
+                <input className="input is-medium" type="text" {...register("firstName",{ required: true })}/>
+                <label className="label" htmlFor="lastName" required>Last Name: </label>
+                <input className="input is-medium" type="text" {...register("lastName",{ required: true })}/>
+                <label className="label" htmlFor="email">Email: </label>
+                <input className="input is-medium" type="text" {...register("email", { required: true })}/>
+                <label className="label" htmlFor="password" >Password: </label>
+                <input className="input is-medium" type="password" {...register("password", { required: true})}/>
+                <button className="button is-primary is-link">Sign Up</button>
+            </form>
+        </main>
+        </>
     )
 }
 

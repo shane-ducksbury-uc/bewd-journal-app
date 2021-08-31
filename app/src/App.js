@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect, useHistory, Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify'
 
 import './App.scss';
@@ -42,8 +42,8 @@ function App() {
     <>
       <Router>
         <ToastContainer />
-        <Header handleLogout={handleLogout} userLoggedIn={userLoggedIn}/>
         <Switch>
+          {/* <Header handleLogout={handleLogout} userLoggedIn={userLoggedIn}/> */}
           <Route path="/login">
             {userLoggedIn ? <Redirect to='/' /> :
             <Login currentUser={currentUser} setCurrentUser={handleSetCurrentUser} />
@@ -52,21 +52,30 @@ function App() {
           <Route path="/register">
             {userLoggedIn ? <Redirect to='/' /> : <Register />}
           </Route>
-          <Route path="/debug">
-            <Debug />
-          </Route>
         </Switch>
-        <ProtectedRoute exact path='/' component={Home} userLoggedIn={userLoggedIn} />
-        <ProtectedRoute path='/journals' component={Journal} userLoggedIn={userLoggedIn}/>
+        <Route exact path='/'><Home></Home></Route>
+        <ProtectedRoute path='/journals' component={Journal} handleLogout={handleLogout} userLoggedIn={userLoggedIn}/>
       </Router>
     </>
   );
 
 
   function Home(){
-    return(
-      <Redirect to='/journals/' />
-    )
+    if (userLoggedIn){
+      return(
+        <Redirect to='/journals/' />
+      )
+    }  else {
+      return(
+        <div className="home-container">
+          <h1 className="is-size-1">Welcome to Bright Mind</h1>
+          <div>
+          <Link to="/login"><button className="button is-primary">Go To Login</button></Link>
+          <Link to="/register"><button className="button is-link">Register</button></Link>
+          </div>
+        </div>
+      )
+    }
       }
 }
 

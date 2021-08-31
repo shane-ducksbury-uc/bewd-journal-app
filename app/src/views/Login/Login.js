@@ -16,7 +16,7 @@ function Login({ currentUser, setCurrentUser }) {
       };
 
     const checkUserCreds = async (formData) => {
-        const API_ENDPOINT = `http://${process.env.REACT_APP_API_ENDPOINT}/users/login`
+        const API_ENDPOINT = `https://${process.env.REACT_APP_API_ENDPOINT}/users/login`
         try {
             const response = await axios.post(API_ENDPOINT, formData)
             return response.data
@@ -32,7 +32,7 @@ function Login({ currentUser, setCurrentUser }) {
     }
 
     const getUserDetails = async (token) => {
-        const API_ENDPOINT = `http://${process.env.REACT_APP_API_ENDPOINT}/users`
+        const API_ENDPOINT = `${process.env.REACT_APP_API_ENDPOINT}/users`
         try {
             const response = await axios.get(API_ENDPOINT, {
                 headers: {
@@ -61,16 +61,17 @@ function Login({ currentUser, setCurrentUser }) {
 
 
     return (
-        <div>
-            <h1>Login to Journal App</h1>
-            <label htmlFor="email">Email: </label>
-            <input type="text" name="email" onChange={handleChange} />
-            <label htmlFor="password">Password: </label>
-            <input type="password" name="password" onChange={handleChange} />
+        <div className="form-container">
+            <h1 className="is-size-1">Login to Bright Mind</h1>
+            <form>
+            <label className="label" htmlFor="email">Email: </label>
+            <input className="input is-medium" type="text" name="email" onChange={handleChange} />
+            <label className="label" htmlFor="password">Password: </label>
+            <input className="input is-medium" type="password" name="password" onChange={handleChange} />
             <div>
-                <button onClick={handleSubmit}>Login</button>
-                <button>Cancel</button>
+                <button className="button is-primary is-link" onClick={handleSubmit}>Login</button>
             </div>
+            </form>
             <Link to='/register'>Register a new account</Link>
         </div>
     )

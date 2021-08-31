@@ -21,7 +21,7 @@ function JournalEntries({ token }) {
   useEffect(() => {
     async function getData(){
       try {
-        const API_ENDPOINT = `http://${process.env.REACT_APP_API_ENDPOINT}/journals/`
+        const API_ENDPOINT = `https://${process.env.REACT_APP_API_ENDPOINT}/journals/`
         const response = await Axios.get(`${API_ENDPOINT}${journalId}`, {
           headers: {
             'Authorization': `Bearer ${token.accessToken}`
@@ -38,14 +38,16 @@ function JournalEntries({ token }) {
   if (dataLoaded){
     return (
       <>
-      <div className="journal-entries-list">
+      <div className="journal-entries-list is-1">
         <Link to={`${url}/new`} className="new-journal-entry-button"><FeatherIcon icon="plus"/>New Entry</Link>
         {journalEntries.map((entry) => {
           return (
             <NavLink to={`${url}/${entry.journal_entry_id}`} key={entry.journal_entry_id} className="journal-entry-menu-item" activeClassName="selected">
-                <div>
-                <h2>{entry.title}</h2>
-                <p>{entry.content.plainEntryText}</p>
+                <div className="card">
+                  <div className="card-header">
+                    <div className="card-header-title">{entry.title}</div>
+                  </div>
+                  <div className="card-content">{entry.content.plainEntryText}</div>
                 </div>
                 </NavLink>
           );

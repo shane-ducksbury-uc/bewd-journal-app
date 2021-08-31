@@ -10,17 +10,12 @@ function Header({ handleLogout }) {
     
     return (
         <header className={HeaderModuleCSS.journalAppHeader}>
-            <nav>
-                <ul>
-                    <li><Link to='/journals'>Journals</Link></li>
-                </ul>
-            </nav>
             <div>
-                <Link to='/'><h2>Bright Mind</h2></Link>
+                <Link to='/'><h2 className="is-size-1">Bright Mind</h2></Link>
             </div>
             <div>
                 <p>Avatar</p>
-                <button onClick={handleLogout}>Logout</button>
+                <button className="button is-white"onClick={handleLogout}>Logout</button>
             </div>
         </header>
     )
