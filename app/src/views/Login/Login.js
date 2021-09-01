@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 
 
 
-function Login({ currentUser, setCurrentUser }) {
+function Login({ setCurrentUser }) {
     const [formData, updateFormData] = useState()
 
     const handleChange = (e) => {
@@ -41,7 +41,7 @@ function Login({ currentUser, setCurrentUser }) {
             })
             return response.data
         } catch (e) {
-            
+            toast.error('Something went wrong when connecting to the server.')
         }
     }
     
@@ -54,7 +54,6 @@ function Login({ currentUser, setCurrentUser }) {
             user = await getUserDetails(token)
         }
         if(user){
-            localStorage.setItem('currentUser', JSON.stringify(user[0]))
             setCurrentUser(user[0])
         }
     }

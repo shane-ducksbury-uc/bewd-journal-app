@@ -24,7 +24,7 @@ app.use('/users', usersRoutes)
 app.use('/journals', journalsRoutes)
 app.use('/entries', entriesRoutes)
 
-app.get('/health', (req, res) => res.status(200).send('Server Running'))
+// app.get('/health', (req, res) => res.status(200).send('Server Running'))
 
 // This creates a route
 // app.get('/', (req, res) => res.send('Hello from Homepage'));

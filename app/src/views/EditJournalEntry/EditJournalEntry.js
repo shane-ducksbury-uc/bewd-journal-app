@@ -46,6 +46,7 @@ function EditJournalEntry({ handleForceRefresh, token, journalEntry }) {
             const response = await updateJournalEntry(journalData, editorState)
             if(response.status === 201) {
                 handleForceRefresh(false)
+                toast.success('Journal entry successfully updated.')
                 history.push(`/journals/${journalId}/${journalEntryId}`)} 
         } catch (e) {
             toast.error(`Something went wrong. Try again later.`, { autoClose:false })

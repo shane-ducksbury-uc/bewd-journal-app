@@ -1,12 +1,12 @@
 import React from 'react'
 import { Route, Link, Redirect } from 'react-router-dom'
 
-const ProtectedRoute = ({ component: Component, userLoggedIn, handleLogout, ...rest }) => {
+const ProtectedRoute = ({ component: Component, userLoggedIn, handleLogout, token, currentUser, ...rest }) => {
 
     return (
         <Route {...rest} render={props => {
             if(userLoggedIn){
-                return <Component handleLogout={handleLogout} {...rest} {...props} />
+                return <Component handleLogout={handleLogout} token={token} currentUser={currentUser} {...rest} {...props} />
             } else {
                 return (
                     // Update this so that on logout it just redirects.

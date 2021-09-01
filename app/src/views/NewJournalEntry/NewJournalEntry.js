@@ -48,6 +48,7 @@ function NewJournalEntry({ handleForceRefresh, token }) {
             const response = await addJournalEntry(formData, editorState)
             if(response.status === 201) {
                 handleForceRefresh(false)
+                toast.success('Journal entry successfully created.')
                 history.push(`/journals/${journalId}`)} 
         } catch (e) {
             toast.error(`Something went wrong. Try again later.`, { autoClose:false })
@@ -70,7 +71,7 @@ function NewJournalEntry({ handleForceRefresh, token }) {
             </section>
             <div>
                 <button className="button is-primary" onClick={handleSubmit}>Save</button>
-                <button className="button is-secondary">Cancel</button>
+                <button className="button is-secondary" onClick={() => {history.push(`/journals/${journalId}`)}}>Cancel</button>
             </div>
         </div>
     )

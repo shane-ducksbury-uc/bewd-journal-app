@@ -14,7 +14,6 @@ function Header({ handleLogout }) {
                 <Link to='/'><h2 className="is-size-1">Bright Mind</h2></Link>
             </div>
             <div>
-                <p>Avatar</p>
                 <button className="button is-white"onClick={handleLogout}>Logout</button>
             </div>
         </header>

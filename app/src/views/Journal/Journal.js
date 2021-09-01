@@ -3,20 +3,24 @@ import { Route, Link, useHistory } from 'react-router-dom';
 import Axios from 'axios'
 import FeatherIcon from 'feather-icons-react'
 import Dropdown from 'react-dropdown'
+import Modal from 'react-modal'
 
 import Header from '../../components/Header/Header';
 import JournalEntries from '../JournalEntries/JournalEntries';
 import { toast } from 'react-toastify';
+import NewJournal from '../NewJournal/NewJournal';
 
-function Journal({ handleLogout }) {
+Modal.setAppElement('#root')
+
+function Journal({ handleLogout, token, currentUser }) {
 
     const history = useHistory()
 
     const [userJournals, setUserJournals] = useState()
     const [dataLoaded, setDataLoaded] = useState(false)
-    const [currentUser, setCurrentUser] = useState()
     const [currentJournal, setCurrentJournal] = useState()
-    const [token, setToken] = useState()
+    const [modalIsOpen, setIsOpen] = useState(false)
+
 
     useEffect(() => {
       async function getData(){
@@ -39,18 +43,6 @@ function Journal({ handleLogout }) {
       if (!dataLoaded && currentUser) getData()
     }, [currentUser, token])
 
-    useEffect(() => {
-      const token = localStorage.getItem('userToken')
-      if (token) {
-        const foundToken = JSON.parse(token)
-        setToken(foundToken)
-      }
-      const currentUser = localStorage.getItem('currentUser')
-      if (currentUser) {
-        const foundUser = JSON.parse(currentUser)
-        setCurrentUser(foundUser)
-      }
-    }, [])
 
     useEffect(() => {
       async function pushJournal(){
@@ -60,6 +52,7 @@ function Journal({ handleLogout }) {
         }
       if (dataLoaded) pushJournal()
     }, [dataLoaded])
+
 
     const generateJournalDropdown = () => {
         const journalDropdown = userJournals.map((journal) => {
@@ -75,10 +68,15 @@ function Journal({ handleLogout }) {
         return (
           <>
             <Header handleLogout={handleLogout} />
-            <h2>Current Journal</h2>
-            <Dropdown options={journalDropdown} value={currentJournal.journal_id}/>
+            <div className="current-journal-wrapper">
+              <h2>Current Journal</h2>
+              <Dropdown options={journalDropdown} value={currentJournal.journal_id} />
+              <Modal isOpen={modalIsOpen}>
+                <NewJournal setIsOpen={setIsOpen} />
+              </Modal>
+              {/* <button className="button is-link" onClick={() => {setIsOpen(true)}}>New Journal</button> */}
+            </div>
             <div className="journal-wrapper">
-              
               <div className="journal-content-wrapper">
                 <Route path="/journals/:journalId">
                     <JournalEntries token={token} />
