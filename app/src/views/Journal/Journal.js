@@ -40,7 +40,7 @@ function Journal({ handleLogout, token, currentUser }) {
           toast.error(`Couldn't reach the server. Try again later.`, { autoClose:false })
         }
       }
-      if (!dataLoaded && currentUser) getData()
+      if (!dataLoaded && currentUser && token) getData()
     }, [currentUser, token])
 
 
