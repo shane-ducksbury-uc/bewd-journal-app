@@ -40,10 +40,11 @@ export const getJournalEntry = (req, res) => {
 export const updateJournalEntry = (req, res) => {
     const { journalEntryId } = req.params;
     const updatedJournalEntry = req.body
+    const { id } = req.user
     pool.query(
         `UPDATE journal_entries 
         SET title='${updatedJournalEntry.title}', content='${updatedJournalEntry.content}', date_updated=CURRENT_TIMESTAMP
-        WHERE journal_entry_id='${journalEntryId}';`, (error, results) => {
+        WHERE journal_entry_id='${journalEntryId}' AND owner='${id}';`, (error, results) => {
         if (error) {
             res.status(400).json(error.message)
         } else {

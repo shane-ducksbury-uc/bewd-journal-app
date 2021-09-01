@@ -12,11 +12,11 @@ body{
 }
 
 // This is root for React not ::root
-#root{
+html, body, #root, .App{
     height: 100%;
 }
 
-:is(h1,h2,h3){
+:is(h1,h2,h3,.card-header-title){
     font-family: 'Raleway', sans-serif;
 }
 
@@ -34,20 +34,12 @@ h3 {
 
 .journal-wrapper {
     // background-color: chartreuse;
-    min-height: 100%;
+    // min-height: 100%;
     display: flex;
     align-items: flex-start;
-}
-
-.journals-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #282a36;
-    // Need to fix whatever BS is making this not be 100%
-    min-height: 100vh;
-    min-width: 4rem;
-    color: #FFF;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgb(207, 207, 207);
 }
 
 .journals-list {
@@ -58,22 +50,24 @@ h3 {
 .journal-content-wrapper {
     min-width: 80%;
     display: flex;
+    height: 100%;
+    overflow: hidden;
 }
 
 .journal-entries-list {
-    min-height: 100%;
     width: 550px;
     border-right: 2px solid #ededed;
-    height: 100vh;
+    height: 100%;
+    // overflow-y: scroll;
 }
 
 .new-journal-entry-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    box-shadow: none;
-    background-color: lightblue;
+    box-shadow: 0 .5em 1em -.125em rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.02);
+    background-color: #FFF;
+    margin: 1rem 0.5rem;
     height: 4rem;
 }
 
@@ -87,7 +81,7 @@ h3 {
 }
 
 .journal-entry {
-    min-width: 100%;
+    width: 100%;
 }
 
 .selected > div {
@@ -96,14 +90,8 @@ h3 {
 
 button {
     font-family: 'Lato', sans-serif;
-    height: 30px;
-    background-color: #fafafa;
-    border: none;
-    border-color: aqua;
-    border-width: 2px;
-    border-radius: 4px;
-    box-shadow: 3px 5px 7px 3px rgba(182,182,182,0.58);
     cursor: pointer;
+    margin: 0.5rem;
 }
 
 form {
@@ -142,4 +130,12 @@ label {
     width: 20rem;
     display: flex;
     justify-content: space-between;
+}
+
+.card-header > input {
+    margin: 1rem;
+}
+
+.entry-editor {
+    min-height: 400px;
 }

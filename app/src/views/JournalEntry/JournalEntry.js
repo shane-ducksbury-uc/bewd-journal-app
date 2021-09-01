@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
+import { Switch, Route, Link, useParams, useHistory, useRouteMatch } from 'react-router-dom'
 import Axios from 'axios';
 import { toast } from 'react-toastify';
 import parse from 'html-react-parser'
+import EditJournalEntry from '../EditJournalEntry/EditJournalEntry';
 
 export const JournalEntry = ({ currentJournalId, handleForceRefresh, token }) => {
     const [journalEntry, setJournalEntry] = useState()
@@ -10,6 +11,7 @@ export const JournalEntry = ({ currentJournalId, handleForceRefresh, token }) =>
 
     const history = useHistory()
     const { journalEntryId } = useParams()
+    const { url, path } = useRouteMatch()
     const API_ENDPOINT = `${process.env.REACT_APP_API_ENDPOINT}/entries/`
     
     const deleteJournalEntry = async () => {
@@ -53,13 +55,23 @@ export const JournalEntry = ({ currentJournalId, handleForceRefresh, token }) =>
     
     if (dataLoaded) {
         return(
-            <div className="journal-entry">
-                <h1>{journalEntry[0].title}</h1>
-                <div className="journal-entry-content">
-                    {parse(journalEntry[0].content.htmlEntryText)}
-                </div>
-                <button onClick={deleteJournalEntry}>Delete</button>
-            </div>
+            <>
+                <Route path={`${path}/edit`}>
+                    <EditJournalEntry journalEntry={journalEntry[0]} handleForceRefresh={handleForceRefresh} token={token}/>
+                </Route>
+                <Route exact path={`${path}`}>
+                    <div className="card journal-entry">
+                        <header className="card-header">
+                            <h1 className="card-header-title">{journalEntry[0].title}</h1>
+                        </header>
+                        <div className="card-content">
+                            {parse(journalEntry[0].content.htmlEntryText)}
+                        </div>
+                        <Link to={`${url}/edit`}><button className="button is-link">Edit</button></Link>
+                        <button className="button is-danger" onClick={deleteJournalEntry}>Delete</button>
+                    </div>
+                </Route>
+                </>
         )
     } else {
         return <p>Data is still loading.</p>

@@ -38,7 +38,7 @@ function JournalEntries({ token }) {
   if (dataLoaded){
     return (
       <>
-      <div className="journal-entries-list is-1">
+      <div className="journal-entries-list">
         <Link to={`${url}/new`} className="new-journal-entry-button"><FeatherIcon icon="plus"/>New Entry</Link>
         {journalEntries.map((entry) => {
           return (
@@ -58,7 +58,7 @@ function JournalEntries({ token }) {
           <Route path={`${path}/new`}>
               <NewJournalEntry handleForceRefresh={handleForceRefresh} token={token}/>
             </Route>
-          <Route exact path={`${path}/:journalEntryId`}>
+          <Route path={`${path}/:journalEntryId`}>
             <JournalEntry currentJournalId={currentJournalId} handleForceRefresh={handleForceRefresh} token={token}/>
           </Route>
         </Switch>

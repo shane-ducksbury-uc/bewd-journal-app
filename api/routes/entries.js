@@ -9,7 +9,7 @@ router.post('/', authenticateToken, createJournalEntry)
 
 router.get('/:journalEntryId', authenticateToken, getJournalEntry)
 
-router.put('/:journalEntryId', updateJournalEntry)
+router.put('/:journalEntryId', authenticateToken, updateJournalEntry)
 
 router.delete('/:journalEntryId', authenticateToken, deleteJournalEntry)
 
