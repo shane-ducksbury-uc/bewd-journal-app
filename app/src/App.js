@@ -51,9 +51,9 @@ function App() {
             setCurrentUser(response.data)
           }
         } catch (e){
+          handleLogout()
           toast.error('Something went wrong when validating your account. Try logging in again. \
           This app is also a demo, so if you are having trouble logging in, try registering a new user.')
-          handleLogout()
         }
       } else {
         handleLogout()
