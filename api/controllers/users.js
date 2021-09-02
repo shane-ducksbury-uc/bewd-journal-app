@@ -72,14 +72,19 @@ export const logUserIn = async (req, res) => {
     }
 }
 
-export const getUsers = (req, res) => {
+export const getUsers = async (req, res) => {
     const user = req.user
     try {
         pool.query(`SELECT email, id, first_name, last_name FROM users where id='${user.id.toString()}'`, (error, results) => {
             if(error) {
                 res.status(400).send()
             } else {
-                res.status(200).json(results.rows)
+                // Check token for invalid user - this is for the old token check. Can be removed at refresh token implementation.
+                if (results.rowCount === 0){
+                    res.sendStatus(403)
+                } else {
+                    res.status(200).json(results.rows)
+                }
             }
         })
     } catch {
