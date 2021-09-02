@@ -16,6 +16,13 @@ export const createUser = async (req, res) => {
             const userInsert = `'${newUserId}', '${newUser.email}', '${hashedPassword}', '${newUser.firstName}', '${newUser.lastName}'`.toString()
             const journalInsert = `'${uuidv4()}', '${newUserId}', 'My Daily Journal', CURRENT_TIMESTAMP`.toString()
 
+            // Send a 409 if the email exists
+            const userCheck = await pool.query(`SELECT id, email FROM users WHERE email='${newUser.email.toString()}'`)
+            if (userCheck.rowCount > 0){
+                res.status(409).json('Email taken')
+                return
+            }
+
             // Generate a new account and a new journal on account creation
             pool.query(`INSERT INTO users (id, email, password, first_name, last_name) VALUES (${userInsert});
             INSERT INTO journals (journal_id, owner, journal_title, date_created) VALUES (${journalInsert});
@@ -36,7 +43,6 @@ export const createUser = async (req, res) => {
 }
 
 // Should update this to use different server. Should also update to expire tokens
-// and to 
 export const logUserIn = async (req, res) => {
     const userCreds = req.body
     try{
@@ -79,17 +85,6 @@ export const getUsers = (req, res) => {
     } catch {
         res.status(500).send()
     }
-}
-
-
-// Don't actually think I need this
-export const deleteUser = (req, res) => {
-    const { id } = req.params;
-
-    users = users.filter((user) => user.id !== id)
-
-// Come back to this - there is no check to actually see if the user id was deleted.
-    res.send(`User with ${id} deleted.`)
 }
 
 export const getUserJournals = (req, res) => {

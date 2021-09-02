@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect, useHistory, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect, Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify'
 import Axios from 'axios'
 import { toast } from 'react-toastify';
@@ -14,12 +14,12 @@ import Journal from './views/Journal/Journal'
 import Login from './views/Login/Login';
 import Register from './views/Register/Register'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import Home from './views/Home/Home'
 
 
 function App() {
   const [currentUser, setCurrentUser] = useState();
   const [userLoggedIn, setUserLoggedIn] = useState(false);
-
   const [token, setToken] = useState()
 
   const handleSetCurrentUser = (e) => {
@@ -75,30 +75,13 @@ function App() {
             {userLoggedIn ? <Redirect to='/' /> : <Register />}
           </Route>
         </Switch>
-        <Route exact path='/'><Home></Home></Route>
+        <Route exact path='/'>
+          <Home userLoggedIn={userLoggedIn} />
+        </Route>
         <ProtectedRoute path='/journals' component={Journal} handleLogout={handleLogout} userLoggedIn={userLoggedIn} token={token} currentUser={currentUser}/>
       </Router>
     </>
   );
-
-
-  function Home(){
-    if (userLoggedIn){
-      return(
-        <Redirect to='/journals/' />
-      )
-    }  else {
-      return(
-        <div className="home-container">
-          <h1 className="is-size-1">Welcome to Bright Mind</h1>
-          <div>
-          <Link to="/login"><button className="button is-primary">Go To Login</button></Link>
-          <Link to="/register"><button className="button is-link">Register</button></Link>
-          </div>
-        </div>
-      )
-    }
-      }
 }
 
 export default App;

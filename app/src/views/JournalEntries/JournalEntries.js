@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"
 import { Route, Link, NavLink, useParams, useRouteMatch, Switch } from 'react-router-dom';
-import Axios from 'axios';
-import JournalEntry from "../JournalEntry/JournalEntry";
-import NewJournalEntry from "../NewJournalEntry/NewJournalEntry";
+import Axios from 'axios'
+import JournalEntry from "../JournalEntry/JournalEntry"
+import NewJournalEntry from "../NewJournalEntry/NewJournalEntry"
 import FeatherIcon from 'feather-icons-react'
 import { toast } from 'react-toastify'
 
@@ -10,7 +10,7 @@ function JournalEntries({ token }) {
 
   const [journalEntries, setJournalEntries] = useState()
   const { journalId } = useParams()
-  const [currentJournalId, setCurrentJournalId] = useState(journalId) 
+  const [currentJournalId] = useState(journalId) 
   const [dataLoaded, setDataLoaded] = useState(false)
   const { url, path } = useRouteMatch()
 
@@ -64,7 +64,7 @@ function JournalEntries({ token }) {
         </Switch>
       </div>
       </>
-    );
+    )
   } else {
     return(<p>Data not yet loaded</p>)
   }

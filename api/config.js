@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
+// This file creates a connection to the database, to be imported once by other functions
 export const createDbConnection = () => {
     return new pg.Pool({
     user: `${process.env.POSTGRES_USER}`,

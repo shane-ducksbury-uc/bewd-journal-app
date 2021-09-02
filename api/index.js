@@ -13,21 +13,20 @@ import entriesRoutes from './routes/entries.js'
 
 const app = express();
 const PORT = 5000;
-// const HOST = '0.0.0.0'
 
 app.use(express.json());
+
+// The below are for security. I should probably set the CORS but don't understand it well enough.
 app.use(cors())
 app.use(helmet())
 
-// Setting the below creates the root to be used with all of the remaining routes
+// Setting the below creates the root route which can then be defined in a different file
 app.use('/users', usersRoutes)
 app.use('/journals', journalsRoutes)
 app.use('/entries', entriesRoutes)
 
+// health endpoint for troubleshooting locally
 // app.get('/health', (req, res) => res.status(200).send('Server Running'))
-
-// This creates a route
-// app.get('/', (req, res) => res.send('Hello from Homepage'));
 
 app.listen(PORT, () => {console.log(`Server is running on port: ${PORT}`)})
 app.listen()

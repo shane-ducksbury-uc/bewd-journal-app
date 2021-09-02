@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken"
 
+// This is a middleware function which is used to authenticate the JWT
 export const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization']
     // Split the token from the authorization header

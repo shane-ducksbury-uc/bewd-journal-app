@@ -23,6 +23,7 @@ function NewJournalEntry({ handleForceRefresh, token }) {
       });
     };
 
+    // Content string needs to store the current content state so that it can be retrieved for editing later.
     const addJournalEntry = (formData, editorState) => {
         const newJournalURL = `${process.env.REACT_APP_API_ENDPOINT}/entries/`
         const journalData = {

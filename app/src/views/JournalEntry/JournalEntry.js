@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Switch, Route, Link, useParams, useHistory, useRouteMatch } from 'react-router-dom'
+import { Route, Link, useParams, useHistory, useRouteMatch } from 'react-router-dom'
 import Axios from 'axios';
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
 import parse from 'html-react-parser'
-import EditJournalEntry from '../EditJournalEntry/EditJournalEntry';
+import EditJournalEntry from '../EditJournalEntry/EditJournalEntry'
 
 export const JournalEntry = ({ currentJournalId, handleForceRefresh, token }) => {
     const [journalEntry, setJournalEntry] = useState()
@@ -15,7 +15,6 @@ export const JournalEntry = ({ currentJournalId, handleForceRefresh, token }) =>
     const API_ENDPOINT = `${process.env.REACT_APP_API_ENDPOINT}/entries/`
     
     const deleteJournalEntry = async () => {
-        // Replace with a modal
         const response = window.confirm('Are you sure you want to delete?')
         if (response){
             try {

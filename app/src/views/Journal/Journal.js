@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Route, Link, useHistory } from 'react-router-dom';
+import { Route, useHistory } from 'react-router-dom';
 import Axios from 'axios'
-import FeatherIcon from 'feather-icons-react'
 import Dropdown from 'react-dropdown'
 import Modal from 'react-modal'
 
@@ -69,7 +68,7 @@ function Journal({ handleLogout, token, currentUser }) {
           <>
             <Header handleLogout={handleLogout} />
             <div className="current-journal-wrapper">
-              <h2>Current Journal</h2>
+              <h3>Current Journal</h3>
               <Dropdown options={journalDropdown} value={currentJournal.journal_id} />
               <Modal isOpen={modalIsOpen}>
                 <NewJournal setIsOpen={setIsOpen} />
