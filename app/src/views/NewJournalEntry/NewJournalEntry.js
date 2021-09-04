@@ -63,13 +63,14 @@ function NewJournalEntry({ handleForceRefresh, freshJournal, token }) {
 
     return (
         <>
-        {
+        {/* Didn't quite get this working in time so I have time boxed it. Will have to come back
+            {
             !freshJournal ? 
             <div className="notification is-primary">
                 Your journal was empty, so you can get started straight away by creating a new entry now.
                 Write as much or as little as you want, we don't mind 😊
             </div> : null
-        }
+        } */}
         <div className="card">
             <header className="card-header">
                 <input placeholder="Enter a title for your journal entry" className={`card-header-title input is-large ${titleMissing ? "is-danger" : null} `} type="text" name="title" onChange={handleChange} />
