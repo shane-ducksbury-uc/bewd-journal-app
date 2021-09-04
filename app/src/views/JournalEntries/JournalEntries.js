@@ -61,10 +61,10 @@ function JournalEntries({ userJournals, token, forceJournalsRefresh }) {
       <div className="journal-entry-container">
         <Switch>
           <Route path={`${path}/new`}>
-              <NewJournalEntry handleForceRefresh={handleForceRefresh} token={token}/>
+              <NewJournalEntry handleForceRefresh={handleForceRefresh} journalEntries={journalEntries} token={token}/>
             </Route>
           <Route path={`${path}/:journalEntryId`}>
-            <JournalEntry currentJournalId={currentJournalId} handleForceRefresh={handleForceRefresh} freshJournal={journalEntries.length} token={token}/>
+            <JournalEntry currentJournalId={currentJournalId} handleForceRefresh={handleForceRefresh} token={token}/>
           </Route>
         </Switch>
         {journalEntries.length < 1 ? <Redirect to={`${url}/new`} /> : null }

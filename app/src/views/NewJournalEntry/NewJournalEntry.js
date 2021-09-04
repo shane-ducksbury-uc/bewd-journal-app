@@ -7,7 +7,7 @@ import { EditorState, convertToRaw } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg'
 import draftToHtml from 'draftjs-to-html'
 
-function NewJournalEntry({ handleForceRefresh, freshJournal, token }) {
+function NewJournalEntry({ handleForceRefresh, token, journalEntries }) {
     const history = useHistory()
     // May not need the below id field?
     const [formData, updateFormData] = useState({'id': uuidv4()})
@@ -63,14 +63,13 @@ function NewJournalEntry({ handleForceRefresh, freshJournal, token }) {
 
     return (
         <>
-        {/* Didn't quite get this working in time so I have time boxed it. Will have to come back
-            {
-            !freshJournal ? 
+        {
+            journalEntries.length < 1 ? 
             <div className="notification is-primary">
-                Your journal was empty, so you can get started straight away by creating a new entry now.
+                Your journal is empty, so you can get started straight away by creating a new entry now.
                 Write as much or as little as you want, we don't mind 😊
             </div> : null
-        } */}
+        }
         <div className="card">
             <header className="card-header">
                 <input placeholder="Enter a title for your journal entry" className={`card-header-title input is-large ${titleMissing ? "is-danger" : null} `} type="text" name="title" onChange={handleChange} />

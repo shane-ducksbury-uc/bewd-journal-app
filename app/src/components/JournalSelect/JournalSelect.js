@@ -43,7 +43,7 @@ function JournalSelect({ userJournals, currentJournalId, token, forceJournalsRef
                 <NewJournal newJournalModalIsOpen={newJournalModalIsOpen} setNewJournalModalIsOpen={setNewJournalModalIsOpen} token={token} forceJournalsRefresh={forceJournalsRefresh} forceEntriesRefresh={forceEntriesRefresh} />
                 <DeleteJournal deleteModalIsOpen={deleteModalIsOpen} setDeleteModalIsOpen={setDeleteModalIsOpen} token={token} journalId={currentJournalId} forceJournalsRefresh={forceJournalsRefresh} />
                 <button className="button is-link" onClick={() => {setNewJournalModalIsOpen(true)}}><FeatherIcon icon="plus-circle" /></button>
-                <button className="button is-danger" onClick={() => {setDeleteModalIsOpen(true)}}><FeatherIcon icon="trash-2" /></button>
+                {userJournals.length > 1 ? <button className="button is-danger" onClick={() => {setDeleteModalIsOpen(true)}}><FeatherIcon icon="trash-2" /></button> : null}
             </div>
           </div>
         )
