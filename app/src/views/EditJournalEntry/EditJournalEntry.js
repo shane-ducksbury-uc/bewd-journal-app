@@ -53,6 +53,8 @@ function EditJournalEntry({ handleForceRefresh, token, journalEntry }) {
         }
     }
 
+    const editorOptions = {options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'link', 'emoji', 'image', 'remove', 'history']}
+
     return (
         <div className="card">
             <header className="card-header">
@@ -65,6 +67,7 @@ function EditJournalEntry({ handleForceRefresh, token, journalEntry }) {
                 wrapperClassName="wrapperClassName"
                 editorClassName="entry-editor"
                 onEditorStateChange={setEditorState} 
+                toolbar={editorOptions}
                 />
             </section>
             <div>

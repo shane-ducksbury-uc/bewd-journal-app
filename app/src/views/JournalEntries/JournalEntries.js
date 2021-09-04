@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from "react"
-import { Route, Link, NavLink, useParams, useRouteMatch, Switch } from 'react-router-dom';
+import { Route, Link, NavLink, useParams, useRouteMatch, Switch, Redirect } from 'react-router-dom';
 import Axios from 'axios'
 import JournalEntry from "../JournalEntry/JournalEntry"
 import NewJournalEntry from "../NewJournalEntry/NewJournalEntry"
 import FeatherIcon from 'feather-icons-react'
 import { toast } from 'react-toastify'
+import JournalSelect from "../../components/JournalSelect/JournalSelect";
 
-function JournalEntries({ token }) {
+function JournalEntries({ userJournals, token, forceJournalsRefresh }) {
 
   const [journalEntries, setJournalEntries] = useState()
   const { journalId } = useParams()
-  const [currentJournalId] = useState(journalId) 
+  const [currentJournalId, setCurrentJournalId] = useState(journalId) 
   const [dataLoaded, setDataLoaded] = useState(false)
   const { url, path } = useRouteMatch()
 
   const handleForceRefresh = (e) => {
     setDataLoaded(false)
+    setJournalEntries()
+    setCurrentJournalId()
   }
 
   useEffect(() => {
@@ -29,16 +32,18 @@ function JournalEntries({ token }) {
         })
         setJournalEntries(response.data.reverse())
         setDataLoaded(true)
+        setCurrentJournalId(journalId)
       } catch (e){
         toast.error(`Something went wrong. Try again later.`, { autoClose:false })
       }
-    } if(!dataLoaded) getData() 
+    } if(!dataLoaded) getData()
   }, [dataLoaded])
 
   if (dataLoaded){
     return (
       <>
       <div className="journal-entries-list">
+        <JournalSelect userJournals={userJournals} currentJournalId={journalId} token={token} forceJournalsRefresh={forceJournalsRefresh} forceEntriesRefresh={handleForceRefresh}/>
         <Link to={`${url}/new`} className="new-journal-entry-button"><FeatherIcon icon="plus"/>New Entry</Link>
         {journalEntries.map((entry) => {
           return (
@@ -59,9 +64,10 @@ function JournalEntries({ token }) {
               <NewJournalEntry handleForceRefresh={handleForceRefresh} token={token}/>
             </Route>
           <Route path={`${path}/:journalEntryId`}>
-            <JournalEntry currentJournalId={currentJournalId} handleForceRefresh={handleForceRefresh} token={token}/>
+            <JournalEntry currentJournalId={currentJournalId} handleForceRefresh={handleForceRefresh} freshJournal={journalEntries.length} token={token}/>
           </Route>
         </Switch>
+        {journalEntries.length < 1 ? <Redirect to={`${url}/new`} /> : null }
       </div>
       </>
     )

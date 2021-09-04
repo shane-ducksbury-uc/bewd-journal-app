@@ -7,15 +7,14 @@ import { EditorState, convertToRaw } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg'
 import draftToHtml from 'draftjs-to-html'
 
-function NewJournalEntry({ handleForceRefresh, token }) {
+function NewJournalEntry({ handleForceRefresh, freshJournal, token }) {
     const history = useHistory()
     // May not need the below id field?
     const [formData, updateFormData] = useState({'id': uuidv4()})
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
     const { journalId } = useParams()
+    const [titleMissing, setTitleMissing] = useState(false)
 
-    // https://linguinecode.com/post/how-to-get-form-data-on-submit-in-reactjs
-    // Make this so that it is saved in local storage until submitted.
     const handleChange = (e) => {
       updateFormData({
         ...formData,
@@ -45,6 +44,10 @@ function NewJournalEntry({ handleForceRefresh, token }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        if (!formData.title){
+            setTitleMissing(true)
+            return
+        }
         try {
             const response = await addJournalEntry(formData, editorState)
             if(response.status === 201) {
@@ -56,10 +59,21 @@ function NewJournalEntry({ handleForceRefresh, token }) {
         }
     }
 
+    const editorOptions = {options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'link', 'emoji', 'image', 'remove', 'history']}
+
     return (
+        <>
+        {
+            !freshJournal ? 
+            <div className="notification is-primary">
+                Your journal was empty, so you can get started straight away by creating a new entry now.
+                Write as much or as little as you want, we don't mind 😊
+            </div> : null
+        }
         <div className="card">
             <header className="card-header">
-                <input placeholder="Enter a title for your journal entry" className="card-header-title input is-large"type="text" name="title" onChange={handleChange} required />
+                <input placeholder="Enter a title for your journal entry" className={`card-header-title input is-large ${titleMissing ? "is-danger" : null} `} type="text" name="title" onChange={handleChange} />
+                {titleMissing ? <p className="help is-danger">You need a title</p> : null}
             </header>
             <section className="card-content">
             <Editor 
@@ -68,6 +82,7 @@ function NewJournalEntry({ handleForceRefresh, token }) {
                 wrapperClassName="wrapperClassName"
                 editorClassName="entry-editor"
                 onEditorStateChange={setEditorState} 
+                toolbar={editorOptions}
                 />
             </section>
             <div>
@@ -75,6 +90,7 @@ function NewJournalEntry({ handleForceRefresh, token }) {
                 <button className="button is-secondary" onClick={() => {history.push(`/journals/${journalId}`)}}>Cancel</button>
             </div>
         </div>
+        </>
     )
 }
 

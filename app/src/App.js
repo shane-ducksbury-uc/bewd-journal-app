@@ -30,6 +30,7 @@ function App() {
   const handleLogout = (e) => {
     setCurrentUser();
     localStorage.clear()
+    sessionStorage.clear()
     setUserLoggedIn(false)
   }
 

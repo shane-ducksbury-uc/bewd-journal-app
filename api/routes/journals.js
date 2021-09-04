@@ -1,14 +1,14 @@
 import express from 'express';
 
-import { createJournal, getJournalEntries } from '../controllers/journals.js';
+import { createJournal, getJournalEntries, deleteJournal } from '../controllers/journals.js';
 import { authenticateToken } from '../controllers/authentication.js';
 
 const router = express.Router()
 
-// TBD What I am going to do with this one
-router.post('/:userId', authenticateToken, createJournal)
+router.post('/', authenticateToken, createJournal)
 
 router.get('/:journalId', authenticateToken, getJournalEntries)
 
+router.delete('/:journalId', authenticateToken, deleteJournal)
 
 export default router;

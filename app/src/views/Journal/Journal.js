@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Route, useHistory } from 'react-router-dom';
 import Axios from 'axios'
-import Dropdown from 'react-dropdown'
-import Modal from 'react-modal'
 
 import Header from '../../components/Header/Header';
 import JournalEntries from '../JournalEntries/JournalEntries';
 import { toast } from 'react-toastify';
-import NewJournal from '../NewJournal/NewJournal';
-
-Modal.setAppElement('#root')
 
 function Journal({ handleLogout, token, currentUser }) {
 
@@ -18,8 +13,12 @@ function Journal({ handleLogout, token, currentUser }) {
     const [userJournals, setUserJournals] = useState()
     const [dataLoaded, setDataLoaded] = useState(false)
     const [currentJournal, setCurrentJournal] = useState()
-    const [modalIsOpen, setIsOpen] = useState(false)
 
+    // This works but basically forces a full rerender of the page. Could refactor the below useEffect for better reusability.
+    const forceJournalsRefresh = () => {
+      setDataLoaded(false)
+      setCurrentJournal()
+    }
 
     useEffect(() => {
       async function getData(){
@@ -32,60 +31,46 @@ function Journal({ handleLogout, token, currentUser }) {
               'Authorization': `Bearer ${token.accessToken}`
             }
           })
+
           setUserJournals(response.data)
+          const sessionCurrentJournal = sessionStorage.getItem('currentJournal')
+          if (sessionCurrentJournal) {
+            setCurrentJournal(sessionCurrentJournal)
+          } else {
+            const responseJournalId = response.data[0].journal_id
+            sessionStorage.setItem('currentJournal', responseJournalId) 
+            setCurrentJournal(responseJournalId)
+            history.push('/')
+          }
           setDataLoaded(true)
         } catch (e) {
           console.log(e.message)
           toast.error(`Couldn't reach the server. Try again later.`, { autoClose:false })
         }
       }
-      if (!dataLoaded && currentUser && token) getData()
-    }, [currentUser, token])
+      if (!dataLoaded && !currentJournal && currentUser && token) getData()
+    }, [currentUser, token, currentJournal])
 
 
     useEffect(() => {
       async function pushJournal(){
-          const currentJournal = userJournals[0]
-          history.push(`/journals/${currentJournal.journal_id}`)
-          setCurrentJournal(currentJournal)
+        history.push(`/journals/${currentJournal}`)
         }
       if (dataLoaded) pushJournal()
     }, [dataLoaded])
 
-
-    const generateJournalDropdown = () => {
-        const journalDropdown = userJournals.map((journal) => {
-          return {value: journal.journal_id,
-          label: journal.journal_title}
-        })
-        return journalDropdown
-    }
-
     if(dataLoaded && currentJournal){
-        const journalDropdown = generateJournalDropdown()
-
         return (
-          <>
+          <div id="journal">
             <Header handleLogout={handleLogout} />
             <div className="current-journal-wrapper">
-              <h3>Current Journal</h3>
-              <Dropdown options={journalDropdown} value={currentJournal.journal_id} />
-              <Modal isOpen={modalIsOpen}>
-                <NewJournal setIsOpen={setIsOpen} />
-              </Modal>
-              {/* <button className="button is-link" onClick={() => {setIsOpen(true)}}>New Journal</button> */}
             </div>
-            <div className="journal-wrapper">
-              <div className="journal-content-wrapper">
-                <Route path="/journals/:journalId">
-                    <JournalEntries token={token} />
-                </Route>
-              </div>
-              <div>
-
-              </div>
-            </div>
-          </>
+            <>
+              <Route path="/journals/:journalId">
+                  <JournalEntries mainDataLoaded={dataLoaded} token={token} userJournals={userJournals} forceJournalsRefresh={forceJournalsRefresh} />
+              </Route>
+            </>
+          </div>
         );
     } else {
         return(<p>Data is still loading.</p>)

@@ -8,12 +8,13 @@ export const createJournal = (req, res) => {
         const newJournal = req.body
         const { id } = req.user
         if (!newJournal.title) res.sendStatus(400)
-        const insertStatementContent = `'${uuidv4()}', '${id}', '${newJournal.title}', CURRENT_TIMESTAMP`
+        const newJournalId = uuidv4()
+        const insertStatementContent = `'${newJournalId}', '${id}', '${newJournal.title.toString().trim()}', CURRENT_TIMESTAMP`
         pool.query(`INSERT INTO journals (journal_id, owner, journal_title, date_created) VALUES (${insertStatementContent});`, (error, results) => {
             if (error) {
                 res.status(400).json(error.message)
             } else {
-                res.status(201).send('Journal Added')
+                res.status(201).send(newJournalId)
             }
         })
     } catch {
@@ -22,7 +23,7 @@ export const createJournal = (req, res) => {
 }
 
 export const getJournalEntries = (req, res) => {
-    const { journalId } = req.params;
+    const { journalId } = req.params
     const { id } = req.user
 
     try {
@@ -36,6 +37,26 @@ export const getJournalEntries = (req, res) => {
         })
         
     } catch (e) {
+        res.sendStatus(500)
+    }
+
+}
+
+export const deleteJournal = (req, res) => {
+    const { journalId } = req.params
+    const { id } = req.user
+
+    try{
+        pool.query(`DELETE FROM journals WHERE journal_id='${journalId}' AND owner='${id}';
+            DELETE FROM journal_entries WHERE associated_journal='${journalId}' AND owner='${id}';
+        `, (error, results) => {
+            if(error) {
+                res.status(400)
+            } else {
+                res.sendStatus(200)
+            }
+        })
+    } catch {
         res.sendStatus(500)
     }
 
