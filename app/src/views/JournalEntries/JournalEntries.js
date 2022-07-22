@@ -60,12 +60,8 @@ function JournalEntries({ userJournals, token, forceJournalsRefresh }) {
       </div>
       <div className="journal-entry-container">
         <Routes>
-          <Route path={`${path}/new`}>
-              <NewJournalEntry handleForceRefresh={handleForceRefresh} journalEntries={journalEntries} token={token}/>
-            </Route>
-          <Route path={`${path}/:journalEntryId`}>
-            <JournalEntry currentJournalId={currentJournalId} handleForceRefresh={handleForceRefresh} token={token}/>
-          </Route>
+          <Route path={`${path}/new`} element={<NewJournalEntry handleForceRefresh={handleForceRefresh} journalEntries={journalEntries} token={token}/>} />
+          <Route path={`${path}/:journalEntryId`} element={<JournalEntry currentJournalId={currentJournalId} handleForceRefresh={handleForceRefresh} token={token}/>} />
         </Routes>
         {journalEntries.length < 1 ? <Navigate to={`${url}/new`} /> : null }
       </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Route, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Axios from 'axios'
 
 import Header from '../../components/Header/Header';
@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 
 function Journal({ handleLogout, token, currentUser }) {
 
-    const history = useNavigate()
+    const navigate = useNavigate()
 
     const [userJournals, setUserJournals] = useState()
     const [dataLoaded, setDataLoaded] = useState(false)
@@ -40,7 +40,7 @@ function Journal({ handleLogout, token, currentUser }) {
             const responseJournalId = response.data[0].journal_id
             sessionStorage.setItem('currentJournal', responseJournalId) 
             setCurrentJournal(responseJournalId)
-            history.push('/')
+            navigate('/')
           }
           setDataLoaded(true)
         } catch (e) {
@@ -54,7 +54,7 @@ function Journal({ handleLogout, token, currentUser }) {
 
     useEffect(() => {
       async function pushJournal(){
-        history.push(`/journals/${currentJournal}`)
+        navigate(`/journals/${currentJournal}`)
         }
       if (dataLoaded) pushJournal()
     }, [dataLoaded])
@@ -66,9 +66,9 @@ function Journal({ handleLogout, token, currentUser }) {
             <div className="current-journal-wrapper">
             </div>
             <>
-              <Route path="/journals/:journalId">
-                  <JournalEntries mainDataLoaded={dataLoaded} token={token} userJournals={userJournals} forceJournalsRefresh={forceJournalsRefresh} />
-              </Route>
+            <Routes>
+              <Route path="/journals/:journalId/*" element={<JournalEntries mainDataLoaded={dataLoaded} token={token} userJournals={userJournals} forceJournalsRefresh={forceJournalsRefresh} />} />
+            </Routes>
             </>
           </div>
         );

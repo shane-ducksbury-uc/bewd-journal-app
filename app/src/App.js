@@ -20,7 +20,8 @@ import Home from './views/Home/Home'
 function App() {
   const [currentUser, setCurrentUser] = useState();
   const [userLoggedIn, setUserLoggedIn] = useState(false);
-  const [token, setToken] = useState()
+  const [token, setToken] = useState();
+  const [journalId, setJournalId] = useState();
 
   const handleSetCurrentUser = (e) => {
     setCurrentUser(e)
@@ -80,7 +81,9 @@ function App() {
           <Route path='/login' element={userLoggedIn ? <Navigate to='/' /> :
             <Login setCurrentUser={handleSetCurrentUser} />} />
           <Route path='/register' element={userLoggedIn ? <Navigate to='/' /> : <Register />} />
-          <Route path='/journals' element={<ProtectedRoute component={Journal} handleLogout={handleLogout} userLoggedIn={userLoggedIn} token={token} currentUser={currentUser}/>} />
+          {/* <Route path='/journals' element={<ProtectedRoute component={Journal} handleLogout={handleLogout} userLoggedIn={userLoggedIn} token={token} currentUser={currentUser}/>} /> */}
+          <Route path='/journals/*' element={<Journal handleLogout={handleLogout} token={token} currentUser={currentUser} />} />
+            {/* <Route path="/journals/:journalId" element={""} /> */}
           <Route exact path='/' element={<Home userLoggedIn={userLoggedIn} />} />
         </Routes>
         {/* <ProtectedRoute path='/journals' component={Journal} handleLogout={handleLogout} userLoggedIn={userLoggedIn} token={token} currentUser={currentUser}/> */}

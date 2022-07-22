@@ -45,6 +45,7 @@ export const createUser = async (req, res) => {
 // Should update this to use different server. Should also update to expire tokens
 export const logUserIn = async (req, res) => {
     const userCreds = req.body
+    console.log(req.body)
     try{
         pool.query(`SELECT * from users WHERE email='${userCreds.email.toString().trim()}';`, async (error, results) => {
             if (error) {
