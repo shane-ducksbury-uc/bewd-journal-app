@@ -1,13 +1,13 @@
 import Axios from 'axios';
 import React, { useState } from 'react'
-import { useHistory, Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useForm } from 'react-hook-form'
 
 
 function Register() {
     const [emailConflict, setEmailConflict] = useState(false)
-    const history = useHistory()
+    const history = useNavigate()
     const { register, handleSubmit, formState: {errors}} = useForm()
 
     const onSubmit = async (data) => {

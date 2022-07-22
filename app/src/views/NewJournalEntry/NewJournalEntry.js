@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import Axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { EditorState, convertToRaw } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg'
 import draftToHtml from 'draftjs-to-html'
 
 function NewJournalEntry({ handleForceRefresh, token, journalEntries }) {
-    const history = useHistory()
+    const history = useNavigate()
     // May not need the below id field?
     const [formData, updateFormData] = useState({'id': uuidv4()})
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty())

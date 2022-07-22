@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Axios from 'axios';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg'
@@ -9,7 +9,7 @@ import draftToHtml from 'draftjs-to-html'
 // This function is largely a duplicate of new entry. Could be refactored.
 
 function EditJournalEntry({ handleForceRefresh, token, journalEntry }) {
-    const history = useHistory()
+    const history = useNavigate()
     const [journalData, updateJournalData] = useState(journalEntry)
     const [editorState, setEditorState] = useState(() => EditorState.createWithContent(convertFromRaw(JSON.parse(journalEntry.content.rawEditorState))))
     const { journalId, journalEntryId } = useParams()

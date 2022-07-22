@@ -1,14 +1,15 @@
 import React from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { ReactComponent as NoteTaking } from '../../assets/note_taking.svg'
 
 function Home({ userLoggedIn }) {
     if (userLoggedIn) {
         return (
-            <Redirect to='/journals/' />
+            <Navigate to='/journals/' />
         )
     } else {
         return (
+            <>
             <main className="public-wrapper">
             <div className="home-container">
                 <div className="home-content-container">
@@ -28,6 +29,7 @@ function Home({ userLoggedIn }) {
                 </div>
             </div>
             </main>
+        </>
         )
     }
 }

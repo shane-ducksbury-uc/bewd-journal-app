@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import Dropdown from 'react-dropdown'
-import { useHistory } from 'react-router-dom'
+// import Dropdown from 'react-dropdown'
+import { useNavigate } from 'react-router-dom'
 import FeatherIcon from 'feather-icons-react'
 
 import NewJournal from '../partials/NewJournal/NewJournal'
@@ -13,7 +13,7 @@ function JournalSelect({ userJournals, currentJournalId, token, forceJournalsRef
     const [selectedJournal, setSelectedJournal] = useState()
     const [journalDropdown, setDropdownContent] = useState()
 
-    const history = useHistory()
+    const history = useNavigate()
 
     const refreshOnJournalSelection = (data) => {
         sessionStorage.setItem('currentJournal', data.value)
@@ -39,7 +39,7 @@ function JournalSelect({ userJournals, currentJournalId, token, forceJournalsRef
             <div className="current-journal-selector">
             <p>Current Journal</p>
             <div className="current-journal-selector-controls">
-                <Dropdown options={journalDropdown} value={selectedJournal} onChange={refreshOnJournalSelection} />
+                {/* <Dropdown options={journalDropdown} value={selectedJournal} onChange={refreshOnJournalSelection} /> */}
                 <NewJournal newJournalModalIsOpen={newJournalModalIsOpen} setNewJournalModalIsOpen={setNewJournalModalIsOpen} token={token} forceJournalsRefresh={forceJournalsRefresh} forceEntriesRefresh={forceEntriesRefresh} />
                 <DeleteJournal deleteModalIsOpen={deleteModalIsOpen} setDeleteModalIsOpen={setDeleteModalIsOpen} token={token} journalId={currentJournalId} forceJournalsRefresh={forceJournalsRefresh} />
                 <button className="button is-link" onClick={() => {setNewJournalModalIsOpen(true)}}><FeatherIcon icon="plus-circle" /></button>

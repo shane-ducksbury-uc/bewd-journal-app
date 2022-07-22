@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Route, useHistory } from 'react-router-dom';
+import { Route, useNavigate } from 'react-router-dom';
 import Axios from 'axios'
 
 import Header from '../../components/Header/Header';
@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 
 function Journal({ handleLogout, token, currentUser }) {
 
-    const history = useHistory()
+    const history = useNavigate()
 
     const [userJournals, setUserJournals] = useState()
     const [dataLoaded, setDataLoaded] = useState(false)

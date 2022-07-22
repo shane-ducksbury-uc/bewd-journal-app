@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Route, Link, NavLink, useParams, useRouteMatch, Switch, Redirect } from 'react-router-dom';
+import { Route, Link, NavLink, useParams, useMatch, Routes, Navigate } from 'react-router-dom';
 import Axios from 'axios'
 import JournalEntry from "../JournalEntry/JournalEntry"
 import NewJournalEntry from "../NewJournalEntry/NewJournalEntry"
@@ -13,7 +13,7 @@ function JournalEntries({ userJournals, token, forceJournalsRefresh }) {
   const { journalId } = useParams()
   const [currentJournalId, setCurrentJournalId] = useState(journalId) 
   const [dataLoaded, setDataLoaded] = useState(false)
-  const { url, path } = useRouteMatch()
+  const { url, path } = useMatch()
 
   const handleForceRefresh = (e) => {
     setDataLoaded(false)
@@ -59,15 +59,15 @@ function JournalEntries({ userJournals, token, forceJournalsRefresh }) {
         })}
       </div>
       <div className="journal-entry-container">
-        <Switch>
+        <Routes>
           <Route path={`${path}/new`}>
               <NewJournalEntry handleForceRefresh={handleForceRefresh} journalEntries={journalEntries} token={token}/>
             </Route>
           <Route path={`${path}/:journalEntryId`}>
             <JournalEntry currentJournalId={currentJournalId} handleForceRefresh={handleForceRefresh} token={token}/>
           </Route>
-        </Switch>
-        {journalEntries.length < 1 ? <Redirect to={`${url}/new`} /> : null }
+        </Routes>
+        {journalEntries.length < 1 ? <Navigate to={`${url}/new`} /> : null }
       </div>
       </>
     )

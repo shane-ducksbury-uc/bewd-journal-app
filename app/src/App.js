@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify'
 import Axios from 'axios'
 import { toast } from 'react-toastify';
@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import './App.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import 'react-dropdown/style.css';
+// import 'react-dropdown/style.css';
 
 import Journal from './views/Journal/Journal'
 import Login from './views/Login/Login';
@@ -66,20 +66,24 @@ function App() {
     <>
       <Router>
         <ToastContainer />
-        <Switch>
-          <Route path="/login">
-            {userLoggedIn ? <Redirect to='/' /> :
+        {/* <Routes> */}
+          {/* <Route path="/login"> */}
+            {/* {userLoggedIn ? <Navigate to='/' /> :
             <Login setCurrentUser={handleSetCurrentUser} />
-            }
-          </Route>
-          <Route path="/register">
-            {userLoggedIn ? <Redirect to='/' /> : <Register />}
-          </Route>
-        </Switch>
-        <Route exact path='/'>
-          <Home userLoggedIn={userLoggedIn} />
-        </Route>
-        <ProtectedRoute path='/journals' component={Journal} handleLogout={handleLogout} userLoggedIn={userLoggedIn} token={token} currentUser={currentUser}/>
+            } */}
+          {/* </Route> */}
+          {/* <Route path="/register"> */}
+            {/* {userLoggedIn ? <Navigate to='/' /> : <Register />} */}
+          {/* </Route> */}
+        {/* </Routes> */}
+        <Routes>
+          <Route path='/login' element={userLoggedIn ? <Navigate to='/' /> :
+            <Login setCurrentUser={handleSetCurrentUser} />} />
+          <Route path='/register' element={userLoggedIn ? <Navigate to='/' /> : <Register />} />
+          <Route path='/journals' element={<ProtectedRoute component={Journal} handleLogout={handleLogout} userLoggedIn={userLoggedIn} token={token} currentUser={currentUser}/>} />
+          <Route exact path='/' element={<Home userLoggedIn={userLoggedIn} />} />
+        </Routes>
+        {/* <ProtectedRoute path='/journals' component={Journal} handleLogout={handleLogout} userLoggedIn={userLoggedIn} token={token} currentUser={currentUser}/> */}
       </Router>
     </>
   );

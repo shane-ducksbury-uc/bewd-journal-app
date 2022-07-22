@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Route, Link, useParams, useHistory, useRouteMatch } from 'react-router-dom'
+import { Route, Link, useParams, useNavigate, useMatch } from 'react-router-dom'
 import Axios from 'axios';
 import { toast } from 'react-toastify'
 import parse from 'html-react-parser'
@@ -9,9 +9,9 @@ export const JournalEntry = ({ currentJournalId, handleForceRefresh, token }) =>
     const [journalEntry, setJournalEntry] = useState()
     const [dataLoaded, setDataLoaded] = useState(false)
 
-    const history = useHistory()
+    const history = useNavigate()
     const { journalEntryId } = useParams()
-    const { url, path } = useRouteMatch()
+    const { url, path } = useMatch()
     const API_ENDPOINT = `${process.env.REACT_APP_API_ENDPOINT}/entries/`
     
     const deleteJournalEntry = async () => {

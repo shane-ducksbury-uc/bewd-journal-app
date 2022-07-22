@@ -2,12 +2,12 @@ import React from "react";
 import { useForm } from "react-hook-form"
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 function NewJournal({ newJournalModalIsOpen, setNewJournalModalIsOpen, forceJournalsRefresh, forceEntriesRefresh, token }) {
   const { register, handleSubmit, formState: {errors}} = useForm()
 
-  const history = useHistory()
+  const history = useNavigate()
 
   const addNewJournal = (formData) => {
     const newJournalURL = `${process.env.REACT_APP_API_ENDPOINT}/journals`
