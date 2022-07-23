@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Route, Link, useParams, useNavigate, useMatch } from 'react-router-dom'
+import { Routes, Route, Link, useParams, useNavigate, useMatch, useLocation } from 'react-router-dom'
 import Axios from 'axios';
 import { toast } from 'react-toastify'
 import parse from 'html-react-parser'
@@ -11,8 +11,12 @@ export const JournalEntry = ({ currentJournalId, handleForceRefresh, token }) =>
 
     const history = useNavigate()
     const { journalEntryId } = useParams()
-    const { url, path } = useMatch()
+    // const { url, path } = useMatch()
+    const { url, path } = {url: "https://www.google.com", path: "hello"}
+    // const match = useMatch();
     const API_ENDPOINT = `${process.env.REACT_APP_API_ENDPOINT}/entries/`
+
+    const { pathname } = useLocation();
     
     const deleteJournalEntry = async () => {
         const response = window.confirm('Are you sure you want to delete?')
@@ -55,21 +59,23 @@ export const JournalEntry = ({ currentJournalId, handleForceRefresh, token }) =>
     if (dataLoaded) {
         return(
             <>
-                <Route path={`${path}/edit`}>
-                    <EditJournalEntry journalEntry={journalEntry[0]} handleForceRefresh={handleForceRefresh} token={token}/>
-                </Route>
-                <Route exact path={`${path}`}>
-                    <div className="card journal-entry">
-                        <header className="card-header">
-                            <h1 className="card-header-title">{journalEntry[0].title}</h1>
-                        </header>
-                        <div className="card-content">
-                            {parse(journalEntry[0].content.htmlEntryText)}
-                        </div>
-                        <Link to={`${url}/edit`}><button className="button is-link">Edit</button></Link>
-                        <button className="button is-danger" onClick={deleteJournalEntry}>Delete</button>
-                    </div>
-                </Route>
+                <Routes>
+                    <Route path={`${path}/edit`} element={<EditJournalEntry journalEntry={journalEntry[0]} handleForceRefresh={handleForceRefresh} token={token}/>} />
+                    <Route path={`entry`} element={
+                        <>
+                            <div className="card journal-entry">
+                                <header className="card-header">
+                                    <h1 className="card-header-title">{journalEntry[0].title}</h1>
+                                </header>
+                                <div className="card-content">
+                                    {parse(journalEntry[0].content.htmlEntryText)}
+                                </div>
+                                <Link to={`${url}/edit`}><button className="button is-link">Edit</button></Link>
+                                <button className="button is-danger" onClick={deleteJournalEntry}>Delete</button>
+                            </div>
+                        </>
+                    } />
+                </Routes>
                 </>
         )
     } else {

@@ -67,7 +67,7 @@ function Journal({ handleLogout, token, currentUser }) {
             </div>
             <>
             <Routes>
-              <Route path="/journals/:journalId/*" element={<JournalEntries mainDataLoaded={dataLoaded} token={token} userJournals={userJournals} forceJournalsRefresh={forceJournalsRefresh} />} />
+              <Route path=":journalId/*" element={<JournalEntries mainDataLoaded={dataLoaded} token={token} userJournals={userJournals} forceJournalsRefresh={forceJournalsRefresh} />} />
             </Routes>
             </>
           </div>

@@ -12,7 +12,8 @@ function NewJournalEntry({ handleForceRefresh, token, journalEntries }) {
     // May not need the below id field?
     const [formData, updateFormData] = useState({'id': uuidv4()})
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
-    const { journalId } = useParams()
+    // const { journalId } = useParams()
+    const journalId = "dd92bcde-d790-41d9-9ed0-7bb36c51a147"
     const [titleMissing, setTitleMissing] = useState(false)
 
     const handleChange = (e) => {

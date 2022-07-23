@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Route, Link, NavLink, useParams, useMatch, Routes, Navigate } from 'react-router-dom';
+import { Route, Link, NavLink, useParams, useMatch, Routes, Navigate, useLocation } from 'react-router-dom';
 import Axios from 'axios'
 import JournalEntry from "../JournalEntry/JournalEntry"
 import NewJournalEntry from "../NewJournalEntry/NewJournalEntry"
@@ -13,7 +13,7 @@ function JournalEntries({ userJournals, token, forceJournalsRefresh }) {
   const { journalId } = useParams()
   const [currentJournalId, setCurrentJournalId] = useState(journalId) 
   const [dataLoaded, setDataLoaded] = useState(false)
-  const { url, path } = useMatch()
+  const { pathname } = useLocation()
 
   const handleForceRefresh = (e) => {
     setDataLoaded(false)
@@ -44,10 +44,10 @@ function JournalEntries({ userJournals, token, forceJournalsRefresh }) {
       <>
       <div className="journal-entries-list">
         <JournalSelect userJournals={userJournals} currentJournalId={journalId} token={token} forceJournalsRefresh={forceJournalsRefresh} forceEntriesRefresh={handleForceRefresh}/>
-        <Link to={`${url}/new`} className="new-journal-entry-button"><FeatherIcon icon="plus"/>New Entry</Link>
+        <Link to={`/journals/${journalId}/new`} className="new-journal-entry-button"><FeatherIcon icon="plus"/>New Entry</Link>
         {journalEntries.map((entry) => {
           return (
-            <NavLink to={`${url}/${entry.journal_entry_id}`} key={entry.journal_entry_id} className="journal-entry-menu-item" activeClassName="selected">
+            <NavLink to={`${entry.journal_entry_id}/entry`} key={entry.journal_entry_id} className="journal-entry-menu-item" activeclassname="selected">
                 <div className="card">
                   <div className="card-header">
                     <div className="card-header-title">{entry.title}</div>
@@ -60,10 +60,10 @@ function JournalEntries({ userJournals, token, forceJournalsRefresh }) {
       </div>
       <div className="journal-entry-container">
         <Routes>
-          <Route path={`${path}/new`} element={<NewJournalEntry handleForceRefresh={handleForceRefresh} journalEntries={journalEntries} token={token}/>} />
-          <Route path={`${path}/:journalEntryId`} element={<JournalEntry currentJournalId={currentJournalId} handleForceRefresh={handleForceRefresh} token={token}/>} />
+          <Route path={`/new`} element={<NewJournalEntry handleForceRefresh={handleForceRefresh} journalEntries={journalEntries} token={token}/>} />
+          <Route path={`:journalEntryId/*`} element={<JournalEntry currentJournalId={currentJournalId} handleForceRefresh={handleForceRefresh} token={token}/>} />
         </Routes>
-        {journalEntries.length < 1 ? <Navigate to={`${url}/new`} /> : null }
+        {/* {journalEntries.length < 1 ? <Navigate to={`${url}/new`} /> : null } */}
       </div>
       </>
     )
