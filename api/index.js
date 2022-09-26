@@ -12,7 +12,7 @@ import journalsRoutes from './routes/journals.js'
 import entriesRoutes from './routes/entries.js'
 
 const app = express();
-const PORT = 5000;
+const PORT = 3200;
 
 app.use(express.json());
 
