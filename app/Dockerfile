@@ -1,4 +1,4 @@
-FROM node:current-alpine
+FROM node:16-alpine
 ENV REACT_APP_API_ENDPOINT https://api.brightmind.cc
 WORKDIR /usr/src/app
 COPY ./package*.json ./
