@@ -63,11 +63,13 @@ export const logUserIn = async (req, res) => {
                         res.status(401).send()
                     }
                 } catch (e) {
+                    console.log(e)
                     res.status(500).send(e.message)
                 }
             }
         })
     } catch (e) {
+        console.log(e)
         res.status(500).send(e.message)
     }
 }

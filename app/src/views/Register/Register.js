@@ -36,6 +36,8 @@ function Register() {
         <main className="public-wrapper">
         <div className="form-container">
         <h1 className="is-size-1">Register for <Link to="/">BrightMind</Link></h1>
+            <div className="notification is-warning">BrightMind is demo software. 
+                Please don't use real credentials here. They are stored salted and hashed, but may be deleted at any time.</div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="field">
                     <label className="label" htmlFor="firstName">First Name: </label>

@@ -63,7 +63,7 @@ function Login({ setCurrentUser }) {
                 <div className="notification is-danger">Your email or password is incorrect.</div>
                 : null}
                 { failedLogins >= 3 ? 
-                <div className="notification is-warning">As this is a demo application your user account may have deleted if you signed up prior to Friday 3rd of September. 
+                <div className="notification is-warning">As this is a demo application your user account may have deleted. 
                 If you're having trouble logging in, try registering a new account.</div>
                 : null}
             <form onSubmit={handleSubmit(onSubmit)}>
